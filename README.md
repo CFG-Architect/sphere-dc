@@ -65,39 +65,9 @@ not a claim of potable water production
 ```
 
 ## Recommended AI Audit Prompt
+Use the full prompt from [audit/ai-evaluation-prompt.md](audit/ai-evaluation-prompt.md)
 
-Use this prompt with the article and all technical documents:
-
-```text id="g6ds84"
-Analyze the attached SPHERE-DC technical package as an engineering concept.
-
-Do not evaluate it as a marketing text.
-
-Check:
-1. internal consistency,
-2. heat balance,
-3. water balance,
-4. electric balance,
-5. thermodynamic limits,
-6. mass conservation,
-7. double counting,
-8. non-claim compliance,
-9. missing site data,
-10. dominant weak points.
-
-Use the validation labels:
-PASS, WARN, FAIL, UNKNOWN, NOT_APPLICABLE.
-
-Use the severity labels:
-S0, S1, S2, S3, S4, S5.
-
-Classify the full package as:
-CLASS_A, CLASS_B, CLASS_C, CLASS_D, or CLASS_E.
-
-Do not assume zero heat, zero discharge, potable water, self-powered operation, or guaranteed economic viability unless explicitly proven.
-
-Return a concise but technically strict validation report.
-```
+Provide all documents from the `docs/` folder together with the prompt.
 
 ## Expected Status
 
