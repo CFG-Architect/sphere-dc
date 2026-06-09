@@ -17,6 +17,20 @@ make AI validation easier
 make formulas machine-readable
 separate assumptions from claims
 ```
+## Scope Warning
+
+This document defines shared variables, formulas, and assumptions only.
+
+It does not contain:
+- module-level calculation logic
+- module-level reference cases  
+- cross-module consistency checks
+- failure and bypass conditions
+- site-specific constraints per module
+
+Reading this document does not substitute for reading docs 03–09.
+Each module document contains specifications, constraints, and failure conditions
+not present here.
 
 1. System Boundary
 
