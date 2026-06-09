@@ -28,7 +28,7 @@ It does not contain:
 - failure and bypass conditions
 - site-specific constraints per module
 
-Reading this document does not substitute for reading docs 03–09.
+Reading this document does not substitute for reading docs 03–10.
 Each module document contains specifications, constraints, and failure conditions
 not present here.
 
