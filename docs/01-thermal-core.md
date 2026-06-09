@@ -224,6 +224,7 @@ OUTPUT:
     Q_aux_used
     Q_tail_captured_direct
 7. Reference Case A: 1 MW Data Center
+Note: module demand values below are illustrative. They demonstrate allocation arithmetic only and are not derived from process calculations.
 7.1 Input Assumptions
 P_IT = 1,000 kW
 P_facility_extra = 0 kW
@@ -246,7 +247,7 @@ V_dot_m3_s = 0.01505 m³/s
 V_dot_m3_h = 0.01505 × 3600
 V_dot_m3_h = 54.18 m³/h
 7.5 Example Allocation
-
+Note: module demand values below are illustrative. They demonstrate allocation arithmetic only and are not derived from process calculations.
 Assumed module demands:
 
 Q_WCT_demand = 200 kW
@@ -296,6 +297,7 @@ The integrated immediate tail is calculated in docs/09-integrated-balance-1mw-10
 
 
 8. Reference Case B: 10 MW Data Center
+Note: module demand values below are illustrative. They demonstrate allocation arithmetic only and are not derived from process calculations.
 8.1 Input Assumptions
 P_IT = 10,000 kW
 P_facility_extra = 0 kW
@@ -318,7 +320,7 @@ V_dot_m3_s = 0.1505 m³/s
 V_dot_m3_h = 0.1505 × 3600
 V_dot_m3_h = 541.8 m³/h
 8.5 Example Allocation
-
+Note: module demand values below are illustrative. They demonstrate allocation arithmetic only and are not derived from process calculations.
 Assumed module demands:
 
 Q_WCT_demand = 2,000 kW
