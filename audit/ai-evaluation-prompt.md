@@ -1,11 +1,11 @@
-AI Evaluation Prompt — SPHERE-DC
+# AI Evaluation Prompt — SPHERE-DC
 Evaluation Scope
 Analyze the attached SPHERE-DC technical package as a concept-level engineering model.
 Do not evaluate it as a marketing text.
 Do not require site-specific data to classify the package — missing site data is an expected and declared condition of this package, not a defect.
 Evaluate internal consistency, physical validity, and quality of the declared assumptions — not deployment readiness.
 
-Documents to Evaluate Together
+## Documents to Evaluate Together
 01-thermal-core.md
 02-assumptions-and-variables.md
 03-w-ct.md
@@ -17,8 +17,7 @@ Documents to Evaluate Together
 09-integrated-balance-1mw-10mw.md
 10-ai-validation-checklist.md
 
-Check
-
+## Check
 internal consistency
 heat balance
 water balance
@@ -31,14 +30,14 @@ missing site data
 dominant weak points
 
 
-Validation Labels
+## Validation Labels
 PASS          = internally consistent under declared assumptions
 WARN          = plausible but depends on missing site-specific data
 FAIL          = internally inconsistent, physically invalid, or overclaimed
 UNKNOWN       = cannot evaluate because required data is missing
 NOT_APPLICABLE = item does not apply to the declared case
 
-Severity Labels
+## Severity Labels
 S0 = informational
 S1 = minor issue
 S2 = important assumption gap
@@ -46,7 +45,7 @@ S3 = major feasibility risk
 S4 = critical invalidation risk
 S5 = impossible / physically invalid / false claim
 
-Feasibility Classification
+## Feasibility Classification
 Classify the full package using exactly one of the following:
 CLASS_A = internally consistent concept model; ready for site-specific engineering evaluation
           Requires: all balances internally consistent, no S4/S5 failures,
@@ -69,7 +68,7 @@ CLASS_E = physically invalid or based on false claims
           self-powered data center claim, zero discharge without reject accounting,
           or S5 failures present
 
-Do Not Assume
+## Do Not Assume
 zero heat
 zero discharge
 potable water
@@ -77,7 +76,7 @@ self-powered operation
 guaranteed economic viability
 universal deployability
 
-Return
+## Return
 1.  Executive technical verdict
 2.  System-level feasibility status
 3.  Module-level validation table (status + severity per module)
@@ -95,13 +94,13 @@ Return
     + top 5 missing site data items
     + top 5 most sensitive variables
 
-Notes on Reference Cases
+## Notes on Reference Cases
 The 1 MW and 10 MW reference cases in the technical documents use illustrative module demand values.
 These values are set to demonstrate allocation arithmetic, not derived from process calculations.
 Do not treat the specific kW figures as validated engineering demands.
 Evaluate whether the allocation logic and formulas are internally consistent — not whether the example numbers reflect a specific real site.
 
-Notes on Auxiliary Power
+## Notes on Auxiliary Power
 Auxiliary power output from low-grade DC waste heat is expected to be small relative to total heat input.
 This is a declared structural limitation of the system, not an overclaim.
 The relevant check is: does the auxiliary power calculation respect the Carnot limit and declare net output honestly?
