@@ -24,6 +24,23 @@ Evaluate internal consistency, physical validity, and quality of the declared as
 
 ---
 
+## Pre-Audit Requirement
+
+Before producing any evaluation output, confirm that you have read
+all documents listed above in full.
+
+Do not begin evaluation until all documents are read.
+Do not extrapolate module content from other documents.
+Do not skip any document due to assumed redundancy.
+
+If any document is unavailable or unreadable, report it explicitly
+as UNKNOWN before proceeding — do not substitute with assumptions.
+
+At the end of the evaluation report, include a "Documents Read" section
+listing each document with status: READ / NOT_READ / UNAVAILABLE.
+
+---
+
 ## Check
 
 1. internal consistency
