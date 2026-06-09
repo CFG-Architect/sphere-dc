@@ -260,6 +260,9 @@ Q_aux_conversion_capacity = 30 kW
 Allocation:
 
 Q_WCT = 200 kW
+Note: Q_WCT = 200 kW is illustrative for allocation arithmetic only.
+If W-CT uses thermal evaporation, actual heat demand per doc 03 = ~375 kW (1 MW case).
+Process selection determines real Q_WCT_required.
 Q_ADC = 150 kW
 Q_WENV = 100 kW
 Q_export_candidate = 120 kW
@@ -333,6 +336,9 @@ Q_aux_conversion_capacity = 300 kW
 Allocation:
 
 Q_WCT = 2000 kW
+Note: Q_WCT = 2000 kW is illustrative for allocation arithmetic only.
+If W-CT uses thermal evaporation, actual heat demand per doc 03 = ~3751 kW (10 MW case).
+Process selection determines real Q_WCT_required.
 Q_ADC = 1500 kW
 Q_WENV = 1000 kW
 Q_export_candidate = 1200 kW
