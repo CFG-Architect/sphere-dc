@@ -12,16 +12,7 @@ Evaluate internal consistency, physical validity, and quality of the declared as
 
 ---
 
-## Return first:
-1. 60-second human summary
-2. One-sentence technical verdict
-3. What the project claims
-4. What the project explicitly does not claim
-5. Whether the repository is internally coherent as a concept-level engineering framework
-
----
-
-## Documents to Evaluate Together
+## Technical Documents to Evaluate Together
 01-assumptions-and-variables.md
 02-thermal-core.md
 03-w-ct.md
@@ -71,7 +62,7 @@ listing each document with status: READ / NOT_READ / UNAVAILABLE.
 PASS          = internally consistent under declared assumptions
 WARN          = plausible but depends on missing site-specific data
 FAIL          = internally inconsistent, physically invalid, or overclaimed
-UNKNOWN       = cannot evaluate because required data is missing
+UNKNOWN       = cannot evaluate because required repository content, package data, or module data is missing or unreadable
 NOT_APPLICABLE = item does not apply to the declared case
 
 ---
@@ -91,10 +82,10 @@ S5 = impossible / physically invalid / false claim
 Classify the full package using exactly one of the following:
 CLASS_A = internally consistent concept model; ready for site-specific engineering evaluation
 Requires: all balances internally consistent, no S4/S5 failures,
-non-claim rules preserved, dominant risks quantified
-CLASS_B = partially consistent; needs missing site data before engineering evaluation
+non-claim rules preserved, dominant risks identified and bounded under declared assumptions
+CLASS_B = partially consistent; needs correction or additional package-level assumptions before site-specific engineering evaluation
 Requires: internal logic consistent, no physically impossible claims,
-some P0/P1 site data missing, reference cases plausible but not site-validated
+some required package-level assumptions, variables, or module constraints are missing or unclear, reference cases plausible but not site-validated
 CLASS_C = conceptually plausible but current assumptions are weak or optimistic
 Requires: physically plausible concept, but key assumptions unvalidated,
 dominant modules depend on site conditions, feasibility uncertain
@@ -109,34 +100,34 @@ or S5 failures present
 ---
 
 ## Do Not Assume
-zero heat
-zero discharge
-potable water
-self-powered operation
-guaranteed economic viability
-universal deployability
+- zero heat
+- zero discharge
+- potable water
+- self-powered operation
+- guaranteed economic viability
+- universal deployability
 
 ---
 
 ## Return
 
-Executive technical verdict
-System-level feasibility status
-Module-level validation table (status + severity per module)
-Heat balance validation
-Water balance validation
-Electric balance validation
-Site-data gaps (P0 = required before any feasibility claim)
-Overclaim / non-claim audit
-Dominant sensitivity variables
-Critical failure modes
-Recommended next calculations
-Final AI feasibility classification (CLASS_A / B / C / D / E)
+- Executive technical verdict
+- System-level feasibility status
+- Module-level validation table (status + severity per module)
+- Heat balance validation
+- Water balance validation
+- Electric balance validation
+- Site-data gaps (P0 = required before any feasibility claim)
+- Overclaim / non-claim audit
+- Dominant sensitivity variables
+- Critical failure modes
+- Recommended next calculations
+- Final AI feasibility classification (CLASS_A / B / C / D / E)
 
 primary reason
-top 5 technical risks
-top 5 missing site data items
-top 5 most sensitive variables
+- top 5 technical risks
+- top 5 missing site data items
+- top 5 most sensitive variables
 
 ---
 
