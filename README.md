@@ -7,7 +7,7 @@ It presents a technical concept, system logic, engineering assumptions, validati
 
 ## Core Idea
 
-A data center should not be treated only as a source of waste heat, dirty water, air load, and residual technical outputs.
+A data center should not be treated only as a source of waste heat, cooling-water losses, blowdown, air load, and residual technical outputs.
 
 SPHERE-DC treats these outputs as interconnected flows:
 
@@ -42,36 +42,39 @@ energy → limited auxiliary support power
 
 ## What This Is
 
-engineering concept skeleton
-system balance framework
-AI-verifiable feasibility scaffold
-anti-overclaim protocol
+- engineering concept skeleton
+- system balance framework
+- AI-verifiable feasibility scaffold
+- anti-overclaim protocol
 
 ## What This Is Not
 
-not a final engineering design
-not a vendor-ready implementation package
-not a commercial roadmap
-not a construction-ready specification
-not a claim of zero heat
-not a claim of zero discharge
-not a claim of self-powered data centers
-not a claim of potable water production
+- not a final engineering design
+- not a vendor-ready implementation package
+- not a commercial roadmap
+- not a construction-ready specification
+- not a claim of zero heat
+- not a claim of zero discharge
+- not a claim of self-powered data centers
+- not a claim of potable water production
 
 ## Recommended AI Audit Prompt
+
 Use the full prompt from [audit/ai-evaluation-prompt.md](audit/ai-evaluation-prompt.md)
 
-Provide all documents from the `docs/` folder together with the prompt.
+Provide the repository link and ask the AI system to inspect the README, LICENSE, DISCLAIMER, audit prompt, and all documents in the `docs/` folder.
 
 ## Expected Status
 
 The current package should be treated as:
 
-concept-level engineering model
-ready for independent AI audit
-ready for site-specific professional evaluation
-not ready for direct deployment
+- concept-level engineering model
+- ready for independent AI audit
+- ready for site-specific professional evaluation
+- not ready for direct deployment
 
-## Rights Notice
+## License and Disclaimer
 
-See [DISCLAIMER.md](DISCLAIMER.md).
+SPHERE-DC is released under the CC0-1.0 public-domain dedication.
+
+See [LICENSE.md](LICENSE.md) and [DISCLAIMER.md](DISCLAIMER.md).
