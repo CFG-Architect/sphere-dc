@@ -17,38 +17,39 @@ SPHERE-DC receives water streams from A-DC condensate, W-CT recovered water, and
 W-env-DC treats, validates, and routes these streams into clean technical water for cooling system make-up, SPHERE internal use, irrigation, or other local technical use.
 W-env-DC must not count any input water as clean technical water until treatment or quality validation is complete.
 
-Source basis: the SPHERE-DC backup defines W-env-DC as the clean technical water module receiving A-DC condensate, W-CT cleaned water, and external water, using data center heat for desalination or purification, and producing clean technical water for cooling make-up, SPHERE needs, and local green zones.
+W-env-DC is the SPHERE-DC module for treating, validating, and routing recovered water streams into clean technical water for cooling make-up, SPHERE internal use, and permitted local non-potable technical use.
 ```
 
-1. Scope
+## 1. Scope
 
 This document defines calculation logic for:
 
-water input aggregation
-water quality classification
-treatment recovery
-clean technical water production
-reject stream calculation
-contaminant mass balance
-cooling make-up substitution
-SPHERE internal water demand
-irrigation / local technical demand
-heat demand of W-env-DC
-electric demand of W-env-DC
-water reuse efficiency
-failure and bypass conditions
+- water input aggregation
+- water quality classification
+- treatment recovery
+- clean technical water production
+- reject stream calculation
+- contaminant mass balance
+- cooling make-up substitution
+- SPHERE internal water demand
+- irrigation / local technical demand
+- heat demand of W-env-DC
+- electric demand of W-env-DC
+- water reuse efficiency
+- failure and bypass conditions
 
 This document does not define:
 
-final membrane selection
-final desalination equipment
-potable water certification
-municipal water permitting
-hazardous waste classification
-detailed chemical dosing
-final microbiological validation
-final equipment sizing
-2. Module Position in SPHERE-DC Priority
+- final membrane selection
+- final desalination equipment
+- potable water certification
+- municipal water permitting
+- hazardous waste classification
+- detailed chemical dosing
+- final microbiological validation
+- final equipment sizing
+
+## 2. Module Position in SPHERE-DC Priority
 
 Heat routing priority:
 
@@ -70,8 +71,11 @@ Water routing priority:
 3. support SPHERE internal process water
 4. support local technical / irrigation demand
 5. route surplus or off-spec water to storage, retreatment, or reject
-3. Required Inputs
-3.1 Water Volume Inputs
+
+## 3. Required Inputs
+
+### 3.1 Water Volume Inputs
+
 Symbol	Meaning	Unit
 V_WCT_recovered	Recovered water from W-CT	m³/day
 V_condensate_captured	Captured condensate from A-DC	m³/day
@@ -81,14 +85,18 @@ V_other_water	Other technical water input	m³/day
 V_WENV_in	Total W-env-DC inlet water	m³/day
 V_WENV_bypass_clean	Input water bypassed after validation as already suitable	m³/day
 V_WENV_treatment_in	Water routed through treatment	m³/day
-3.2 Water Demand Inputs
+
+### 3.2 Water Demand Inputs
+
 Symbol	Meaning	Unit
 V_makeup_demand	Cooling system make-up water demand	m³/day
 V_SPHERE_internal_demand	SPHERE internal technical water demand	m³/day
-V_irrigation_demand	Irrigation / green zone demand	m³/day
+V_irrigation_demand	Permitted non-potable local use demand	m³/day
 V_local_technical_demand	Other local technical water demand	m³/day
 V_total_reuse_demand	Total useful water demand	m³/day
-3.3 Treatment Inputs
+
+### 3.3 Treatment Inputs
+
 Symbol	Meaning	Unit
 R_WENV	W-env-DC treatment recovery rate	0–1
 V_clean_technical	Clean technical water produced	m³/day
@@ -100,7 +108,9 @@ Q_WENV_used	Heat used by W-env-DC	kW
 P_WENV_electric	W-env-DC electric load	kW
 SEC_WENV	Specific electric consumption	kWh/m³
 STC_WENV	Specific thermal consumption	kWh_th/m³
-3.4 Water Quality Inputs
+
+### 3.4 Water Quality Inputs
+
 Symbol	Meaning	Unit
 TDS_in	Total dissolved solids at inlet	mg/L
 TDS_out	TDS in treated water	mg/L
@@ -117,15 +127,20 @@ metals_in	Metals concentration at inlet	mg/L
 metals_out	Metals concentration at outlet	mg/L
 biological_risk_in	Biological contamination risk indicator	boolean / score
 quality_target	Required quality class for selected reuse	class / threshold set
-4. Default Constants
+
+## 4. Default Constants
+
 rho_water = 1000 kg/m³
 Cp_water = 4.186 kJ/kg·K
 h_fg_water_default = 2450 kJ/kg
 seconds_per_day = 86400 s/day
 liters_per_m3 = 1000 L/m³
 kWh_per_kJ = 1 / 3600
-5. W-env-DC Input Balance
-5.1 Total Inlet Water
+
+## 5. W-env-DC Input Balance
+
+### 5.1 Total Inlet Water
+
 V_WENV_in =
 V_WCT_recovered
 + V_condensate_captured
@@ -136,7 +151,8 @@ V_WCT_recovered
 Constraint:
 
 V_WENV_in >= 0
-5.2 Treatment Inlet
+
+### 5.2 Treatment Inlet
 
 If no input is validated as already suitable:
 
@@ -155,10 +171,15 @@ Non-double-count rule:
 
 Water bypassed as already suitable must be counted once in total usable water.
 Do not count the same water as both WCT recovery and WENV output unless WENV actually treats or validates it.
-6. Treatment Recovery Calculation
-6.1 Treated Clean Technical Water
+
+## 6. Treatment Recovery Calculation
+
+### 6.1 Treated Clean Technical Water
+
 V_WENV_treated_clean = V_WENV_treatment_in × R_WENV
-6.2 W-env-DC Reject Stream
+
+### 6.2 W-env-DC Reject Stream
+
 V_WENV_reject = V_WENV_treatment_in - V_WENV_treated_clean - V_WENV_loss
 
 If process losses are not separately modeled:
@@ -175,7 +196,9 @@ Non-claim rule:
 
 R_WENV = 1.0 is not allowed in concept claims.
 100% clean water recovery is not allowed.
-6.3 Total Clean Technical Water Available
+
+### 6.3 Total Clean Technical Water Available
+
 V_clean_technical =
 V_WENV_treated_clean
 + V_WENV_bypass_clean
@@ -183,7 +206,8 @@ V_WENV_treated_clean
 Constraint:
 
 V_clean_technical <= V_WENV_in
-7. Contaminant Mass Balance
+
+## 7. Contaminant Mass Balance
 
 For any component X:
 
@@ -212,7 +236,8 @@ Constraints:
 M_X_reject_kg_day >= 0
 V_WENV_reject > 0 if C_X_reject is calculated
 C_X_out must satisfy selected quality_target before reuse
-8. Quality Target Logic
+
+## 8. Quality Target Logic
 
 W-env-DC must classify output by target use.
 
@@ -220,9 +245,9 @@ Example classes:
 
 Class T1: cooling tower make-up water
 Class T2: SPHERE internal technical water
-Class T3: irrigation / green zone water
+Class T3: permitted non-potable local technical use
 Class T4: local non-potable technical use
-Class P1: conditional potable-adjacent use after additional validation
+Potable-water use is outside the SPHERE-DC baseline scope.
 
 Generic quality check:
 
@@ -238,16 +263,20 @@ measured_water_quality <= required_reuse_quality_limits
 
 Potable-adjacent restriction:
 
-P1 requires separate site-specific microbiological, chemical, and regulatory validation.
-Do not claim potable water from W-env-DC baseline.
-9. Useful Water Allocation
-9.1 Total Reuse Demand
+Potable-water use requires a separate project, separate validation, separate regulatory approval, and must not be inferred from this repository.
+
+## 9. Useful Water Allocation
+
+### 9.1 Total Reuse Demand
+
 V_total_reuse_demand =
 V_makeup_demand
 + V_SPHERE_internal_demand
 + V_irrigation_demand
 + V_local_technical_demand
-9.2 Allocation Priority
+
+### 9.2 Allocation Priority
+
 V_remaining_clean = V_clean_technical
 
 V_to_makeup = min(V_remaining_clean, V_makeup_demand)
@@ -271,7 +300,8 @@ V_to_SPHERE_internal <= V_SPHERE_internal_demand
 V_to_irrigation <= V_irrigation_demand
 V_to_local_technical <= V_local_technical_demand
 V_clean_surplus >= 0
-10. Fresh Water Reduction
+
+## 10. Fresh Water Reduction
 
 If W-env-DC output replaces external make-up water:
 
@@ -288,7 +318,8 @@ V_to_makeup
 Constraint:
 
 fresh_water_reduction_total <= original_external_water_demand
-11. Water Loop Closure Ratio
+
+## 11. Water Loop Closure Ratio
 
 Define useful reused water:
 
@@ -315,7 +346,8 @@ V_reused_useful / V_WENV_in
 Constraint:
 
 0 <= WENV_useful_recovery_ratio <= 1
-12. Thermal Demand Model
+
+## 12. Thermal Demand Model
 
 W-env-DC may use heat for:
 
@@ -327,7 +359,8 @@ thermal concentration
 sanitization
 regeneration
 sludge drying
-12.1 Thermal Evaporation / Distillation Case
+
+### 12.1 Thermal Evaporation / Distillation Case
 
 If clean water is produced by evaporation / condensation:
 
@@ -341,7 +374,8 @@ Where:
 Q_WENV_required in kW
 h_fg_effective in kJ/kg
 eta_WENV_thermal_process in 0–1
-12.2 Low-Thermal / Membrane-Support Case
+
+### 12.2 Low-Thermal / Membrane-Support Case
 
 If W-env-DC uses primarily membrane or hybrid treatment:
 
@@ -353,7 +387,9 @@ Where:
 STC_WENV in kWh_th/m³
 V_WENV_treatment_in in m³/day
 Q_WENV_required in kW_th
-12.3 Available Heat Constraint
+
+### 12.3 Available Heat Constraint
+
 Q_WENV_used = min(Q_WENV_available, Q_WENV_required)
 
 If:
@@ -386,7 +422,8 @@ Q_WENV_available and Q_WENV_used represent heat allocated from the captured SPHE
 Q_WENV in the integrated balance must not be interpreted as proof that the full declared clean-water output can be produced by pure thermal evaporation.
 
 If Q_WENV_required exceeds Q_WENV_available, the unresolved demand must be handled by reduced throughput, lower recovery, heat recovery, auxiliary heat, lower-thermal treatment, external treatment, storage, or bypass.
-13. Electric Demand Model
+
+## 13. Electric Demand Model
 
 Total electric demand:
 
@@ -412,8 +449,10 @@ V_clean_technical in m³/day
 Constraint:
 
 V_clean_technical > 0
-14. Reference Case A: 1 MW Data Center
-14.1 Declared Inputs
+
+## 14. Reference Case A: 1 MW Data Center
+
+### 14.1 Declared Inputs
 
 From previous module reference cases:
 
@@ -431,19 +470,25 @@ V_makeup_demand = 52.95 m³/day
 V_SPHERE_internal_demand = 2.0 m³/day
 V_irrigation_demand = 5.0 m³/day
 V_local_technical_demand = 0 m³/day
-14.2 Input Balance
+
+### 14.2 Input Balance
+
 V_WENV_in =
 13.24 + 22.7 + 0 + 0 + 0
 
 V_WENV_in = 35.94 m³/day
 V_WENV_treatment_in = 35.94 m³/day
-14.3 Clean Water and Reject
+
+### 14.3 Clean Water and Reject
+
 V_WENV_treated_clean = 35.94 × 0.90
 V_WENV_treated_clean = 32.35 m³/day
 V_WENV_reject = 35.94 - 32.35
 V_WENV_reject = 3.59 m³/day
 V_clean_technical = 32.35 m³/day
-14.4 Useful Water Allocation
+
+### 14.4 Useful Water Allocation
+
 V_remaining_clean = 32.35
 
 V_to_makeup = min(32.35, 52.95)
@@ -455,7 +500,9 @@ V_to_SPHERE_internal = 0
 V_to_irrigation = 0
 V_to_local_technical = 0
 V_clean_surplus = 0
-14.5 Fresh Water Reduction
+
+### 14.5 Fresh Water Reduction
+
 fresh_water_reduction_WENV = 32.35 m³/day
 
 Relative to make-up demand:
@@ -469,7 +516,8 @@ Result:
 
 Under declared assumptions, W-env-DC can replace 61.1% of cooling make-up water in the 1 MW reference case.
 Remaining W-env-DC reject = 3.59 m³/day.
-14.6 Thermal Evaporation Sensitivity
+
+### 14.6 Thermal Evaporation Sensitivity
 
 If W-env-DC output is produced by thermal evaporation:
 
@@ -491,8 +539,10 @@ Interpretation:
 
 Pure thermal evaporation would require ~916 kW for 32.35 m³/day.
 This is large relative to a 1 MW data center and requires heat recovery, multi-effect design, lower-energy treatment, or lower throughput.
-15. Reference Case B: 10 MW Data Center
-15.1 Declared Inputs
+
+## 15. Reference Case B: 10 MW Data Center
+
+### 15.1 Declared Inputs
 
 From previous module reference cases:
 
@@ -510,19 +560,25 @@ V_makeup_demand = 529.2 m³/day
 V_SPHERE_internal_demand = 20 m³/day
 V_irrigation_demand = 50 m³/day
 V_local_technical_demand = 0 m³/day
-15.2 Input Balance
+
+### 15.2 Input Balance
+
 V_WENV_in =
 132.3 + 227 + 0 + 0 + 0
 
 V_WENV_in = 359.3 m³/day
 V_WENV_treatment_in = 359.3 m³/day
-15.3 Clean Water and Reject
+
+### 15.3 Clean Water and Reject
+
 V_WENV_treated_clean = 359.3 × 0.90
 V_WENV_treated_clean = 323.37 m³/day
 V_WENV_reject = 359.3 - 323.37
 V_WENV_reject = 35.93 m³/day
 V_clean_technical = 323.37 m³/day
-15.4 Useful Water Allocation
+
+### 15.4 Useful Water Allocation
+
 V_remaining_clean = 323.37
 
 V_to_makeup = min(323.37, 529.2)
@@ -534,7 +590,9 @@ V_to_SPHERE_internal = 0
 V_to_irrigation = 0
 V_to_local_technical = 0
 V_clean_surplus = 0
-15.5 Fresh Water Reduction
+
+### 15.5 Fresh Water Reduction
+
 fresh_water_reduction_WENV = 323.37 m³/day
 
 Relative to make-up demand:
@@ -548,7 +606,8 @@ Result:
 
 Under declared assumptions, W-env-DC can replace 61.1% of cooling make-up water in the 10 MW reference case.
 Remaining W-env-DC reject = 35.93 m³/day.
-15.6 Thermal Evaporation Sensitivity
+
+### 15.6 Thermal Evaporation Sensitivity
 
 If W-env-DC output is produced by thermal evaporation:
 
@@ -571,7 +630,8 @@ Interpretation:
 Pure thermal evaporation would require ~9.17 MW for 323.37 m³/day.
 This is too large to treat as a free secondary process in a 10 MW data center.
 Hybrid treatment, heat recovery, multi-effect design, or reduced throughput must be modeled explicitly.
-16. TDS Example Mass Balance
+
+## 16. TDS Example Mass Balance
 
 Example assumptions for 1 MW reference case:
 
@@ -616,7 +676,8 @@ Interpretation:
 High recovery concentrates contaminants.
 Reject volume decreases, but reject concentration increases.
 Reject handling must be explicit.
-17. Process Output Requirements
+
+## 17. Process Output Requirements
 
 W-env-DC calculation must output:
 
@@ -651,7 +712,9 @@ Q_WENV_available
 Q_WENV_used
 P_WENV_electric
 SEC_WENV
-18. Control Logic
+
+## 18. Control Logic
+
 INPUT:
     V_WCT_recovered
     V_condensate_captured
@@ -704,7 +767,9 @@ OUTPUT:
     updated fresh water demand
     updated water reuse ratio
     updated heat and electric demand
-19. Failure / Bypass Conditions
+
+## 19. Failure / Bypass Conditions
+
 IF WENV_fault == true:
     isolate W-env-DC
     preserve data center cooling make-up supply
@@ -722,7 +787,9 @@ IF biological_risk_detected == true:
     route to treatment or reject
 IF cooling_makeup_demand_requires_water and WENV_unavailable:
     use original make-up water supply
-20. Engineering Constraints
+
+## 20. Engineering Constraints
+
 0 <= R_WENV < 1
 
 V_clean_technical <= V_WENV_in
@@ -750,50 +817,33 @@ W-env-DC must not interrupt data center cooling make-up safety.
 W-env-DC must be bypassable.
 
 No potable water claim is allowed without separate validation.
-21. AI Validation Questions
+
+## 21. AI Validation Questions
 
 An AI analysis system should verify:
-
 1. Are all inlet water streams defined?
-
 2. Is V_WENV_in equal to the sum of declared inputs?
-
 3. Is any water stream double-counted?
-
 4. Is R_WENV declared as an assumption?
-
 5. Is R_WENV < 1?
-
 6. Is V_clean_technical <= V_WENV_in?
-
 7. Is V_WENV_reject explicitly calculated?
-
 8. Are contaminants conserved across clean water and reject?
-
 9. Is reject concentration calculated when recovery is high?
-
 10. Is clean technical water quality specified before reuse?
-
 11. Is condensate treated or validated before being counted as clean water?
-
 12. Is W-CT recovered water treated or validated before reuse?
-
 13. Is fresh water reduction limited by actual demand?
-
 14. Is heat demand calculated if thermal purification is claimed?
-
 15. Does Q_WENV_required exceed available captured heat?
-
 16. Is electric demand included in system load?
-
 17. Is potable water avoided as a baseline claim?
-
 18. Is fallback routing defined if W-env-DC fails?
-
 19. Are 1 MW and 10 MW cases scaled from declared assumptions?
-
 20. Which assumptions dominate feasibility: R_WENV, input quality, condensate volume, W-CT recovery, heat demand, or reuse demand?
-22. Minimum Site Data Required
+
+## 22. Minimum Site Data Required
+
 V_WCT_recovered
 quality of W-CT recovered water
 V_condensate_captured
@@ -827,7 +877,8 @@ BMS / SCADA integration points
 local water price
 wastewater discharge cost
 regulatory constraints
-23. Non-Claim Rules
+
+## 23. Non-Claim Rules
 
 Not allowed without site-specific proof:
 
@@ -850,7 +901,9 @@ W-env-DC produces Y m³/day of clean technical water.
 W-env-DC creates Z m³/day of reject stream.
 W-env-DC can replace up to A m³/day of cooling make-up water if quality targets are met.
 Output water requires validation for each target use.
-24. Summary Formula Block
+
+## 24. Summary Formula Block
+
 V_WENV_in =
 V_WCT_recovered
 + V_condensate_captured
