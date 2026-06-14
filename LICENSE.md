@@ -1,6 +1,6 @@
 # License
 
-SPHERE-DC is released under the Creative Commons Zero v1.0 Universal license.
+SPHERE-DC is released under the Creative Commons Zero v1.0 Universal public domain dedication.
 
 SPDX-License-Identifier: CC0-1.0
 
@@ -18,4 +18,4 @@ This license does not remove the need for engineering responsibility.
 
 Any real-world implementation of SPHERE-DC requires site-specific engineering, professional design, regulatory review, environmental validation, water chemistry analysis, HVAC/cooling-system analysis, safety review, and operational responsibility by the implementer.
 
-The materials are provided “as is”, without warranty of performance, safety, regulatory compliance, environmental compliance, technical suitability, economic outcome, or fitness for any particular implementation.
+The materials are provided "as is", without warranty of performance, safety, regulatory compliance, environmental compliance, technical suitability, economic outcome, or fitness for any particular implementation.
