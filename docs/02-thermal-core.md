@@ -1,6 +1,6 @@
 # thermal-core.md
 
-# SPHERE-DC Technical Document 01: Thermal Core
+# SPHERE-DC Technical Document 02: Thermal Core
 
 ## 0. Document Type
 
