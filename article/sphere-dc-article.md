@@ -174,3 +174,5 @@ It is an engineering layer that helps a data center handle its own consequences 
 
 Its simple principle is:
 - intercept the flows before they become a problem, and route them through useful processes.
+
+* This article is a public explanatory overview. Technical validation must be based on the repository documentation, especially the assumptions, module specifications, integrated balance, and AI validation checklist.
