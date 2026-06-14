@@ -13,45 +13,43 @@ Thermal Buffers = heat storage and release layer inside SPHERE-DC
 
 Concept baseline:
 
-SPHERE-DC uses thermal buffers to absorb temporary excess heat, smooth module demand, reduce short-duration thermal tail spikes, and provide time-shifted heat to W-CT, A-DC, W-env-DC, heat export, or auxiliary processes.
+SPHERE-DC uses thermal buffers to absorb temporary excess heat, smooth module demand, reduce short-duration thermal tail spikes, and provide time-shifted heat to W-CT, A-DC, W-env-DC, or heat export.
 
 Thermal buffers do not eliminate heat.
 Thermal buffers only delay, redistribute, or stabilize heat flows.
 ```
 
-1. Scope
+## 1. Scope
 
 This document defines calculation logic for:
-
-thermal peak absorption
-required buffer energy capacity
-charge power
-discharge power
-water-based thermal storage
-phase-change material storage
-solid media storage
-thermal losses
-usable stored energy
-buffer state of charge
-buffer full condition
-buffer empty condition
-thermal tail interaction
-failure and bypass conditions
+- thermal peak absorption
+- required buffer energy capacity
+- charge power
+- discharge power
+- water-based thermal storage
+- phase-change material storage
+- solid media storage
+- thermal losses
+- usable stored energy
+- buffer state of charge
+- buffer full condition
+- buffer empty condition
+- thermal tail interaction
+- failure and bypass conditions
 
 This document does not define:
+- final tank design
+- final insulation design
+- pressure vessel certification
+- material selection
+- phase-change material selection
+- fire safety certification
+- structural integration
+- detailed control hardware
 
-final tank design
-final insulation design
-pressure vessel certification
-material selection
-phase-change material selection
-fire safety certification
-structural integration
-detailed control hardware
-2. Module Position in SPHERE-DC Priority
+## 2. Module Position in SPHERE-DC Priority
 
 Heat routing priority:
-
 1. W-CT
 2. A-DC
 3. W-env-DC
@@ -68,8 +66,11 @@ If buffer capacity is available:
 
 If buffer is full:
     route remaining heat to thermal tail.
-3. Required Inputs
-3.1 Heat Flow Inputs
+
+## 3. Required Inputs
+
+### 3.1 Heat Flow Inputs
+
 Symbol	Meaning	Unit
 Q_total	Total heat load inside selected boundary	kW
 Q_captured	Heat captured by SPHERE thermal core	kW
@@ -81,7 +82,9 @@ Q_buffer_in_available	Heat available for buffer charging	kW
 Q_buffer_charge	Actual buffer charge power	kW
 Q_buffer_discharge	Actual buffer discharge power	kW
 Q_tail_total	Total residual heat after module allocation	kW
-3.2 Peak Inputs
+
+### 3.2 Peak Inputs
+
 Symbol	Meaning	Unit
 Q_peak_excess	Temporary excess heat above useful module demand	kW
 t_peak	Peak duration	h
@@ -89,7 +92,9 @@ N_peak_events	Number of peak events per day	count/day
 safety_factor_buffer	Buffer sizing margin	dimensionless
 E_peak	Thermal energy of one peak event	kWh
 E_peak_daily	Total daily peak thermal energy	kWh/day
-3.3 Buffer Capacity Inputs
+
+### 3.3 Buffer Capacity Inputs
+
 Symbol	Meaning	Unit
 E_buffer_nominal	Nominal buffer energy capacity	kWh
 E_buffer_usable	Usable buffer energy capacity	kWh
@@ -100,7 +105,9 @@ SOC_max	Maximum allowed state of charge	0–1
 eta_buffer_charge	Buffer charge efficiency	0–1
 eta_buffer_discharge	Buffer discharge efficiency	0–1
 eta_buffer_roundtrip	Round-trip buffer efficiency	0–1
-3.4 Water Buffer Inputs
+
+### 3.4 Water Buffer Inputs
+
 Symbol	Meaning	Unit
 m_buffer_water	Water mass in buffer	kg
 V_buffer_water	Water volume in buffer	m³
@@ -109,20 +116,26 @@ rho_water	Water density	kg/m³
 T_buffer_hot	Hot buffer temperature	°C
 T_buffer_cold	Cold buffer temperature	°C
 DeltaT_buffer	Usable buffer temperature swing	K
-3.5 PCM Buffer Inputs
+
+### 3.5 PCM Buffer Inputs
+
 Symbol	Meaning	Unit
 m_PCM	Phase-change material mass	kg
 L_PCM	PCM latent heat	kJ/kg
 T_PCM_melt	PCM phase-change temperature	°C
 eta_PCM_use	Fraction of latent capacity actually usable	0–1
-3.6 Solid Media Buffer Inputs
+
+### 3.6 Solid Media Buffer Inputs
+
 Symbol	Meaning	Unit
 m_solid	Solid storage medium mass	kg
 Cp_solid	Specific heat of solid medium	kJ/kg·K
 DeltaT_solid	Usable temperature swing	K
 rho_solid	Solid medium density	kg/m³
 V_solid	Solid medium volume	m³
-3.7 Loss Inputs
+
+### 3.7 Loss Inputs
+
 Symbol	Meaning	Unit
 U_buffer	Overall heat transfer coefficient	W/m²·K
 A_buffer	Buffer external surface area	m²
@@ -131,12 +144,15 @@ T_ambient	Ambient temperature	°C
 Q_loss_buffer	Heat loss from buffer	kW
 t_storage	Storage duration	h
 E_loss_buffer	Energy lost during storage	kWh
-4. Default Constants
+
+## 4. Default Constants
+
 Cp_water = 4.186 kJ/kg·K
 rho_water = 1000 kg/m³
 seconds_per_hour = 3600 s/h
 kWh_to_kJ = 3600 kJ/kWh
-5. Heat Available for Buffer Charging
+
+## 5. Heat Available for Buffer Charging
 
 After higher-priority modules:
 
@@ -154,7 +170,8 @@ Q_buffer_in_available >= 0
 If calculated value is negative:
 
 Q_buffer_in_available = 0
-6. Peak Energy Calculation
+
+## 6. Peak Energy Calculation
 
 One peak event:
 
@@ -180,7 +197,8 @@ Q_peak_excess >= 0
 t_peak >= 0
 N_peak_events >= 0
 safety_factor_buffer >= 1
-7. Buffer Efficiency
+
+## 7. Buffer Efficiency
 
 Round-trip efficiency:
 
@@ -207,7 +225,8 @@ Constraints:
 0 < eta_buffer_charge <= 1
 0 < eta_buffer_discharge <= 1
 0 < eta_buffer_roundtrip <= 1
-8. Water Buffer Capacity
+
+## 8. Water Buffer Capacity
 
 Thermal energy stored in water:
 
@@ -231,7 +250,8 @@ Constraints:
 DeltaT_buffer > 0
 m_buffer_water > 0
 V_buffer_water > 0
-9. PCM Buffer Capacity
+
+## 9. PCM Buffer Capacity
 
 Latent energy stored in PCM:
 
@@ -258,7 +278,8 @@ T_PCM_melt must be compatible with useful heat level.
 Non-claim rule:
 
 PCM storage capacity must not be claimed without verifying phase-change temperature, cycling stability, thermal conductivity, fire safety, and degradation.
-10. Solid Media Buffer Capacity
+
+## 10. Solid Media Buffer Capacity
 
 Thermal energy stored in solid medium:
 
@@ -282,7 +303,8 @@ Constraints:
 Cp_solid > 0
 DeltaT_solid > 0
 rho_solid > 0
-11. Charge Power Constraint
+
+## 11. Charge Power Constraint
 
 Maximum charge power:
 
@@ -312,7 +334,8 @@ Constraint:
 
 Q_buffer_charge >= 0
 SOC_buffer <= SOC_max
-12. Discharge Power Constraint
+
+## 12. Discharge Power Constraint
 
 Maximum discharge power:
 
@@ -341,7 +364,8 @@ Constraint:
 
 Q_buffer_discharge >= 0
 SOC_buffer >= SOC_min
-13. State of Charge Model
+
+## 13. State of Charge Model
 
 Buffer state of charge update over one time step:
 
@@ -366,7 +390,8 @@ Constraints:
 
 0 <= SOC_min < SOC_max <= 1
 SOC_min <= SOC_buffer <= SOC_max
-14. Thermal Loss Model
+
+## 14. Thermal Loss Model
 
 First-order heat loss:
 
@@ -393,7 +418,8 @@ If ambient is hotter than buffer:
 
 Q_loss_buffer may become heat gain.
 Thermal gain must be modeled separately if relevant.
-15. Thermal Tail Interaction
+
+## 15. Thermal Tail Interaction
 
 Without buffer:
 
@@ -423,7 +449,8 @@ Non-claim rule:
 
 Buffer charging reduces immediate thermal tail.
 It does not eliminate heat over full cycle unless stored heat is later used by a useful process.
-16. Useful Discharge Allocation
+
+## 16. Useful Discharge Allocation
 
 Buffer discharge priority:
 
@@ -431,8 +458,7 @@ Buffer discharge priority:
 2. A-DC unmet heat demand
 3. W-env-DC unmet heat demand
 4. heat export demand
-5. auxiliary process demand
-6. thermal tail
+5. thermal tail
 
 Allocation logic:
 
@@ -450,16 +476,16 @@ Q_buffer_remaining = Q_buffer_remaining - Q_buffer_to_WENV
 Q_buffer_to_export = min(Q_buffer_remaining, Q_export_unmet)
 Q_buffer_remaining = Q_buffer_remaining - Q_buffer_to_export
 
-Q_buffer_to_aux = min(Q_buffer_remaining, Q_aux_unmet)
-Q_buffer_remaining = Q_buffer_remaining - Q_buffer_to_aux
-
 Q_buffer_to_tail = Q_buffer_remaining
 
 Constraint:
 
 Stored heat is useful only if discharged into a defined demand.
-17. Reference Case A: 1 MW Data Center
-17.1 Declared Inputs
+
+## 17. Reference Case A: 1 MW Data Center
+
+### 17.1 Declared Inputs
+
 P_IT = 1,000 kW
 
 Q_peak_excess = 150 kW
@@ -476,12 +502,16 @@ rho_water = 1000 kg/m³
 
 SOC_min = 0.10
 SOC_max = 0.95
-17.2 Peak Energy
+
+### 17.2 Peak Energy
+
 E_peak = 150 × 2
 E_peak = 300 kWh
 E_buffer_required = 300 × 1.20
 E_buffer_required = 360 kWh usable
-17.3 Water Buffer Size
+
+### 17.3 Water Buffer Size
+
 m_buffer_water =
 (360 × 3600) / (4.186 × 20)
 
@@ -497,7 +527,8 @@ V_buffer_water = 15.48 m³
 Result:
 
 A 360 kWh usable water buffer with 20 K temperature swing requires approximately 15.5 m³ of water before tank, insulation, and heat exchanger margins.
-17.4 Charge Power Check
+
+### 17.4 Charge Power Check
 
 Assume:
 
@@ -519,7 +550,8 @@ t_charge =
 360 / (180 × 0.95)
 
 t_charge = 2.11 h
-17.5 Discharge Check
+
+### 17.5 Discharge Check
 
 Assume:
 
@@ -539,8 +571,10 @@ t_discharge =
 360 × 0.95 / 120
 
 t_discharge = 2.85 h
-18. Reference Case B: 10 MW Data Center
-18.1 Declared Inputs
+
+## 18. Reference Case B: 10 MW Data Center
+
+### 18.1 Declared Inputs
 
 Scale from Case A:
 
@@ -560,12 +594,16 @@ rho_water = 1000 kg/m³
 
 SOC_min = 0.10
 SOC_max = 0.95
-18.2 Peak Energy
+
+### 18.2 Peak Energy
+
 E_peak = 1,500 × 2
 E_peak = 3,000 kWh
 E_buffer_required = 3,000 × 1.20
 E_buffer_required = 3,600 kWh usable
-18.3 Water Buffer Size
+
+### 18.3 Water Buffer Size
+
 m_buffer_water =
 (3,600 × 3600) / (4.186 × 20)
 
@@ -581,7 +619,8 @@ V_buffer_water = 154.8 m³
 Result:
 
 A 3.6 MWh usable water buffer with 20 K temperature swing requires approximately 155 m³ of water before tank, insulation, and heat exchanger margins.
-18.4 Charge Power Check
+
+### 18.4 Charge Power Check
 
 Assume:
 
@@ -600,7 +639,8 @@ t_charge =
 3600 / (1800 × 0.95)
 
 t_charge = 2.11 h
-18.5 Discharge Check
+
+### 18.5 Discharge Check
 
 Assume:
 
@@ -617,7 +657,8 @@ t_discharge =
 3600 × 0.95 / 1200
 
 t_discharge = 2.85 h
-19. PCM Sensitivity Example
+
+## 19. PCM Sensitivity Example
 
 Assume:
 
@@ -655,7 +696,8 @@ For 3.6 MWh usable storage, PCM mass is approximately 76 tonnes under the same a
 Interpretation rule:
 
 PCM may reduce volume compared with water but may increase cost, thermal conductivity complexity, fire/safety requirements, and cycling validation requirements.
-20. Buffer Loss Example
+
+## 20. Buffer Loss Example
 
 Assume 1 MW case:
 
@@ -693,7 +735,8 @@ Result:
 
 Under declared assumptions, 6-hour storage loss is 0.75% of 360 kWh.
 Actual loss depends on insulation, geometry, temperature, and ambient conditions.
-21. Process Output Requirements
+
+## 21. Process Output Requirements
 
 Thermal buffer calculation must output:
 
@@ -731,7 +774,9 @@ Q_buffer_to_WENV
 Q_buffer_to_export
 Q_buffer_to_aux
 Q_buffer_to_tail
-22. Control Logic
+
+## 22. Control Logic
+
 INPUT:
     Q_captured
     Q_WCT
@@ -777,7 +822,9 @@ OUTPUT:
     thermal tail with buffer
     useful discharged heat allocation
     buffer full / empty status
-23. Failure / Bypass Conditions
+
+## 23. Failure / Bypass Conditions
+
 IF buffer_fault == true:
     isolate thermal buffer
     preserve primary data center cooling
@@ -802,7 +849,9 @@ IF PCM_degradation_detected == true:
     derate E_buffer_usable
     update capacity model
     schedule maintenance
-24. Engineering Constraints
+
+## 24. Engineering Constraints
+
 E_buffer_required > 0 if peak smoothing is claimed.
 
 E_buffer_nominal >= E_buffer_required / eta_buffer_discharge.
@@ -832,50 +881,33 @@ Thermal loss must be included for storage-duration claims.
 Buffer full condition must route excess heat safely.
 
 Buffer empty condition must not interrupt critical SPHERE or data center functions.
-25. AI Validation Questions
+
+## 25. AI Validation Questions
 
 An AI analysis system should verify:
-
 1. Is Q_buffer_in_available calculated only after higher-priority modules?
-
 2. Is Q_peak_excess defined from actual heat surplus or assumed?
-
 3. Is E_peak = Q_peak_excess × t_peak?
-
 4. Is safety_factor_buffer declared?
-
 5. Is E_buffer_required stated as usable capacity or nominal capacity?
-
 6. Are charge and discharge efficiencies included?
-
 7. Is water buffer volume calculated from Cp_water and DeltaT_buffer?
-
 8. Is DeltaT_buffer realistic for the selected temperature levels?
-
 9. Is PCM mass calculated from latent heat and usable fraction?
-
 10. Is PCM temperature compatible with useful heat demand?
-
 11. Are thermal losses included for storage-duration claims?
-
 12. Is Q_loss_buffer calculated from U, A, and temperature difference?
-
 13. Are charge/discharge power limits included?
-
 14. Is buffer state of charge modeled?
-
 15. Is buffer full behavior defined?
-
 16. Is buffer empty behavior defined?
-
 17. Is stored heat later used by a defined process?
-
 18. Is immediate thermal tail reduction separated from full-cycle heat elimination?
-
 19. Are 1 MW and 10 MW cases scaled from declared assumptions?
-
 20. Which assumptions dominate feasibility: Q_peak_excess, t_peak, DeltaT_buffer, storage medium, insulation, or discharge demand?
-26. Minimum Site Data Required
+
+## 26. Minimum Site Data Required
+
 data center heat load profile
 hourly IT load
 hourly cooling load
@@ -901,7 +933,8 @@ maintenance access
 BMS / SCADA integration points
 existing heat rejection path
 fallback heat rejection capacity
-27. Non-Claim Rules
+
+## 27. Non-Claim Rules
 
 Not allowed without site-specific proof:
 
@@ -925,7 +958,9 @@ Water buffer volume is A m³ at DeltaT = B K.
 PCM mass is C kg at L_PCM = D kJ/kg.
 Immediate thermal tail is reduced by E kW during charge.
 Stored heat must later be discharged into defined useful demand or rejected as thermal tail.
-28. Summary Formula Block
+
+## 28. Summary Formula Block
+
 Q_buffer_in_available =
 Q_captured
 - Q_WCT
