@@ -1,4 +1,4 @@
-# SPHERE-DC project
+# SPHERE-DC Project
 Data centers have become part of the basic infrastructure of the modern world. They store data, process requests, run services, AI models, and business operations. But along with their usefulness, every data center has a simple physical problem: almost all the electricity it consumes eventually turns into heat.
 
 Usually, this heat is simply removed. Some of it is carried away through water, some through air, and some through cooling towers or chillers. This approach works, but it creates several side effects: the data center heats the local environment, consumes large amounts of water, produces technical wastewater, releases warm air, and often fails to use its own thermal output as a resource.
@@ -52,7 +52,7 @@ The core then separates heat into levels:
 - warm flow — for treatment, preheating, membrane support, or auxiliary processes;
 - cooled flow — returned back to the data center system.
 
-This is not just one “heat pipeline.” It is a system of priorities: heat is first routed to where it can provide the most value.
+This is not just one “heat pipeline”. It is a system of priorities: heat is first routed to where it can provide the most value.
 
 ### 2. W-CT Module: Cooling Tower Blowdown
 This is one of the main modules of SPHERE-DC.
@@ -65,10 +65,10 @@ The tasks of the W-CT module are to:
 - stabilize the water chemistry;
 - separate as much recoverable technical water as possible;
 - return it back into the system;
-- reduce the volume of toxic liquid discharge;
+- reduce the volume of contaminated liquid reject;
 - concentrate remaining salts, metals, and treatment chemicals into a smaller volume of sludge or brine.
 
-The practical result: the data center releases less dirty water outside and needs less fresh water to support its cooling system.
+The practical result: the data center releases less contaminated technical water outside and needs less fresh water to support its cooling system.
 
 ### 3. A-DC Module: Air Handling
 A data center constantly moves large volumes of air through machine halls, technical rooms, and cooling-related spaces.
@@ -97,7 +97,7 @@ It can be used for:
 - cooling system make-up;
 - SPHERE’s own internal needs;
 - technical processes;
-- green areas or local use after additional treatment.
+- non-potable local technical use after additional treatment, where permitted.
 
 In other words, water does not pass through the data center once and disappear. It begins to circulate within the system.
 
@@ -127,9 +127,9 @@ SPHERE-DC can convert a small part of the available thermal resource into electr
 - fans;
 - automation;
 - sensors;
-- basic robotics.
+- maintenance support systems.
 
-This does not mean that SPHERE powers the entire data center. More realistically, it may provide tens of kilowatts of auxiliary electricity from megawatts of thermal flow.
+This does not mean that SPHERE powers the entire data center. More realistically, it may provide only a small auxiliary electricity offset from a much larger thermal flow.
 
 This is a supporting function, not the main power source.
 
@@ -139,7 +139,7 @@ SPHERE-DC has a fixed priority order:
 2) A-DC — improve air flows.
 3) W-env-DC — return clean technical water into the system.
 4) Heat export — use heat outside the data center.
-5) uffers — smooth thermal peaks.
+5) Buffers — smooth thermal peaks.
 6) Thermal tail — what could not be used.
 
 This order matters. It is not for presentation aesthetics. It defines that the system first reduces the most harmful outputs, and only then tries to extract additional value.
@@ -175,4 +175,4 @@ It is an engineering layer that helps a data center handle its own consequences 
 Its simple principle is:
 - intercept the flows before they become a problem, and route them through useful processes.
 
-* This article is a public explanatory overview. Technical validation must be based on the repository documentation, especially the assumptions, module specifications, integrated balance, and AI validation checklist.
+This article is a public explanatory overview. Technical validation must be based on the repository documentation, especially the assumptions, module specifications, integrated balance, and AI validation checklist.
