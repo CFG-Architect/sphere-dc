@@ -8,6 +8,6 @@ No permission from the author is required to use, adapt, test, implement, or bui
 
 No claim is made that the system is construction-ready, universally deployable, economically guaranteed, site-validated, safety-certified, environmentally permitted, or suitable for implementation without professional engineering.
 
-The materials are provided “as is”, without warranty of performance, safety, regulatory compliance, environmental compliance, technical suitability, economic outcome, or fitness for any particular implementation.
+The materials are provided "as is", without warranty of performance, safety, regulatory compliance, environmental compliance, technical suitability, economic outcome, or fitness for any particular implementation.
 
 Any real-world implementation requires site-specific engineering, regulatory review, environmental validation, water chemistry analysis, HVAC/cooling-system analysis, safety review, and professional design by qualified specialists.
