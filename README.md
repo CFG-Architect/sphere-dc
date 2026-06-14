@@ -31,8 +31,8 @@ energy → limited auxiliary support power
 
 ## Technical Documentation
 
-1. [Thermal Core](docs/01-thermal-core.md)
-2. [Assumptions and Variables](docs/02-assumptions-and-variables.md)
+1. [Assumptions and Variables](docs/01-assumptions-and-variables.md)
+2. [Thermal Core](docs/02-thermal-core.md)
 3. [W-CT Module](docs/03-w-ct.md)
 4. [A-DC Module](docs/04-a-dc.md)
 5. [W-env-DC Module](docs/05-w-env-dc.md)
