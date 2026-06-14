@@ -18,34 +18,35 @@ A-DC processes air for particulate reduction, humidity management, condensate re
 A-DC must not compromise data center cooling, ventilation safety, or equipment operating conditions.
 ```
 
-1. Scope
+## 1. Scope
 
 This document defines calculation logic for:
 
-air volume flow
-air mass flow
-humidity ratio
-dew point
-condensate potential
-particulate removal
-filter loading
-fan power
-air-side thermal load
-water recovery from condensation
-A-DC electric demand
-A-DC heat interaction with SPHERE thermal core
-failure and bypass conditions
+- air volume flow
+- air mass flow
+- humidity ratio
+- dew point
+- condensate potential
+- particulate removal
+- filter loading
+- fan power
+- air-side thermal load
+- water recovery from condensation
+- A-DC electric demand
+- A-DC heat interaction with SPHERE thermal core
+- failure and bypass conditions
 
 This document does not define:
 
-final filter selection
-HVAC mechanical design
-duct geometry
-microbiological certification
-indoor air quality certification
-site permitting
-final control hardware
-2. Module Position in SPHERE-DC Priority
+- final filter selection
+- HVAC mechanical design
+- duct geometry
+- microbiological certification
+- indoor air quality certification
+- site permitting
+- final control hardware
+
+## 2. Module Position in SPHERE-DC Priority
 
 Heat routing priority:
 
@@ -59,8 +60,11 @@ Heat routing priority:
 A-DC priority condition:
 
 Q_ADC is allocated after Q_WCT and before Q_WENV, Q_export, Q_buffer.
-3. Required Inputs
-3.1 Airflow Inputs
+
+## 3. Required Inputs
+
+### 3.1 Airflow Inputs
+
 Symbol	Meaning	Unit
 V_dot_air	Air volume flow through A-DC	m³/h
 V_dot_air_m3_s	Air volume flow through A-DC	m³/s
@@ -75,7 +79,9 @@ omega_in	Inlet humidity ratio	kg_water/kg_dry_air
 omega_out	Outlet humidity ratio	kg_water/kg_dry_air
 T_dew_in	Inlet dew point	°C
 T_dew_out	Outlet dew point	°C
-3.2 Filtration Inputs
+
+### 3.2 Filtration Inputs
+
 Symbol	Meaning	Unit
 PM_in	Inlet particulate concentration	µg/m³
 PM_out	Outlet particulate concentration	µg/m³
@@ -83,10 +89,13 @@ eta_filter_PM	Particle removal efficiency	0–1
 DeltaP_filter	Filter pressure drop	Pa
 DeltaP_duct	Duct / module pressure drop	Pa
 DeltaP_total_ADC	Total air-side pressure drop	Pa
+DeltaP_other_ADC	Other A-DC pressure drop	Pa
 M_PM_removed	Removed particulate mass	kg/day
 M_filter_capacity	Filter dust holding capacity	kg
 t_filter_life	Estimated filter service life	day
-3.3 Fan / Electric Inputs
+
+### 3.3 Fan / Electric Inputs
+
 Symbol	Meaning	Unit
 eta_fan	Fan efficiency	0–1
 P_fan	Fan electric power	kW
@@ -94,7 +103,9 @@ P_controls_ADC	Sensors / control electric power	kW
 P_pumps_ADC	Condensate pump electric power	kW
 P_aux_ADC	Other A-DC electric loads	kW
 P_ADC_electric	Total A-DC electric load	kW
-3.4 Condensate / Water Inputs
+
+### 3.4 Condensate / Water Inputs
+
 Symbol	Meaning	Unit
 m_dot_condensate	Condensate mass flow	kg/s
 V_condensate	Condensate volume	m³/day
@@ -102,7 +113,9 @@ R_condensate_capture	Fraction of condensate captured and routed	0–1
 V_condensate_captured	Captured condensate	m³/day
 V_condensate_lost	Uncaptured condensate / drainage loss	m³/day
 C_condensate_contaminant	Contaminant concentration in condensate	mg/L
-3.5 Thermal Inputs
+
+### 3.5 Thermal Inputs
+
 Symbol	Meaning	Unit
 Cp_air	Specific heat capacity of air	kJ/kg·K
 Q_sensible_ADC	Sensible air thermal load	kW
@@ -111,7 +124,9 @@ Q_ADC_total	Total thermal interaction of A-DC	kW
 Q_ADC_available	Heat available to A-DC from SPHERE thermal core	kW
 Q_ADC_required	Heat required by A-DC process	kW
 h_fg_water	Latent heat of water vaporization / condensation	kJ/kg
-4. Default Constants
+
+## 4. Default Constants
+
 rho_air = 1.2 kg/m³
 Cp_air = 1.005 kJ/kg·K
 rho_water = 1000 kg/m³
@@ -125,7 +140,9 @@ rho_air depends on temperature, pressure, and humidity.
 Cp_air is approximate.
 h_fg_water depends on temperature.
 Psychrometric calculations should use local atmospheric pressure when available.
-5. Air Mass Flow
+
+## 5. Air Mass Flow
+
 V_dot_air_m3_s = V_dot_air / 3600
 m_dot_air = rho_air × V_dot_air_m3_s
 
@@ -138,8 +155,10 @@ Constraint:
 V_dot_air > 0
 rho_air > 0
 m_dot_air > 0
-6. Humidity Ratio Model
-6.1 Saturation Vapor Pressure
+
+## 6. Humidity Ratio Model
+
+### 6.1 Saturation Vapor Pressure
 
 For first-order AI-evaluable calculation, use Magnus approximation:
 
@@ -153,13 +172,17 @@ p_ws in kPa
 Valid approximation range:
 
 0°C to 50°C typical engineering range
-6.2 Water Vapor Partial Pressure
+
+### 6.2 Water Vapor Partial Pressure
+
 p_w = RH × p_ws(T)
 
 Where:
 
 RH is expressed as 0–1
-6.3 Humidity Ratio
+
+### 6.3 Humidity Ratio
+
 omega = 0.62198 × p_w / (P_atm - p_w)
 
 Where:
@@ -173,7 +196,8 @@ Constraints:
 0 <= RH <= 1
 p_w < P_atm
 omega >= 0
-7. Dew Point Model
+
+## 7. Dew Point Model
 
 Approximate dew point from temperature and relative humidity:
 
@@ -189,8 +213,10 @@ T_dew in °C
 Constraint:
 
 RH > 0
-8. Condensate Calculation
-8.1 Condensation Condition
+
+## 8. Condensate Calculation
+
+### 8.1 Condensation Condition
 
 Condensation occurs only if:
 
@@ -204,19 +230,25 @@ Then:
 
 m_dot_condensate = 0
 V_condensate = 0
-8.2 Condensate Mass Flow
+
+### 8.2 Condensate Mass Flow
+
 m_dot_condensate = m_dot_air × max(0, omega_in - omega_out)
 
 Where:
 
 m_dot_condensate in kg/s
-8.3 Condensate Volume Per Day
+
+### 8.3 Condensate Volume Per Day
+
 V_condensate = (m_dot_condensate / rho_water) × seconds_per_day
 
 Where:
 
 V_condensate in m³/day
-8.4 Captured Condensate
+
+### 8.4 Captured Condensate
+
 V_condensate_captured = V_condensate × R_condensate_capture
 V_condensate_lost = V_condensate - V_condensate_captured
 
@@ -225,8 +257,11 @@ Constraints:
 0 <= R_condensate_capture <= 1
 V_condensate_captured <= V_condensate
 V_condensate_lost >= 0
-9. Air-Side Thermal Load
-9.1 Sensible Thermal Load
+
+## 9. Air-Side Thermal Load
+
+### 9.1 Sensible Thermal Load
+
 Q_sensible_ADC = m_dot_air × Cp_air × (T_air_in - T_air_out)
 
 Where:
@@ -240,7 +275,9 @@ Interpretation:
 
 If Q_sensible_ADC > 0, air is cooled.
 If Q_sensible_ADC < 0, air is heated.
-9.2 Latent Thermal Load
+
+### 9.2 Latent Thermal Load
+
 Q_latent_ADC = m_dot_condensate × h_fg_water
 
 Where:
@@ -248,7 +285,8 @@ Where:
 Q_latent_ADC in kW
 m_dot_condensate in kg/s
 h_fg_water in kJ/kg
-9.3 Total Air-Side Thermal Interaction
+
+### 9.3 Total Air-Side Thermal Interaction
 
 For cooling and dehumidification:
 
@@ -257,8 +295,10 @@ Q_ADC_total = Q_sensible_ADC + Q_latent_ADC
 Constraint:
 
 Do not count Q_ADC_total as useful heat reuse unless it is routed into a defined SPHERE process.
-10. Filtration Calculation
-10.1 Particle Removal Efficiency
+
+## 10. Filtration Calculation
+
+### 10.1 Particle Removal Efficiency
 eta_filter_PM = (PM_in - PM_out) / PM_in
 
 Constraints:
@@ -267,7 +307,9 @@ PM_in > 0
 PM_out >= 0
 PM_out <= PM_in
 0 <= eta_filter_PM <= 1
-10.2 Removed Particulate Mass
+
+### 10.2 Removed Particulate Mass
+
 M_PM_removed =
 (PM_in - PM_out) × V_dot_air × 24 × 1e-9
 
@@ -277,7 +319,8 @@ PM concentration in µg/m³
 V_dot_air in m³/h
 M_PM_removed in kg/day
 1 µg = 1e-9 kg
-10.3 Filter Life Estimate
+### 10.3 Filter Life Estimate
+
 t_filter_life = M_filter_capacity / M_PM_removed
 
 Constraint:
@@ -287,10 +330,15 @@ M_PM_removed > 0
 Non-claim rule:
 
 Filter lifetime must not be claimed without actual dust loading, humidity, particle size distribution, and manufacturer data.
-11. Fan Power Calculation
-11.1 Total Pressure Drop
+
+## 11. Fan Power Calculation
+
+### 11.1 Total Pressure Drop
+
 DeltaP_total_ADC = DeltaP_filter + DeltaP_duct + DeltaP_other_ADC
-11.2 Fan Power
+
+### 11.2 Fan Power
+
 P_fan = (DeltaP_total_ADC × V_dot_air_m3_s) / eta_fan / 1000
 
 Where:
@@ -303,7 +351,9 @@ Constraints:
 
 DeltaP_total_ADC >= 0
 0 < eta_fan <= 1
-12. Total A-DC Electric Load
+
+## 12. Total A-DC Electric Load
+
 P_ADC_electric =
 P_fan
 + P_controls_ADC
@@ -316,7 +366,7 @@ SEC_air_ADC = P_ADC_electric / V_dot_air
 
 Where:
 
-SEC_air_ADC in kW per m³/h
+SEC_air_ADC in kW per m³/h of airflow
 
 Alternative daily electric intensity:
 
@@ -327,7 +377,8 @@ E_ADC_day / ((V_dot_air × 24) / 1000)
 Where:
 
 E_per_1000m3_air in kWh/1000 m³
-13. Condensate Quality and Routing
+
+## 13. Condensate Quality and Routing
 
 A-DC condensate is not assumed clean by default.
 
@@ -354,7 +405,8 @@ measured_condensate_quality <= required_reuse_quality_limits
 Constraint:
 
 V_condensate_captured must not be counted as clean technical water until treated or validated.
-14. Humidity Safety Constraint
+
+## 14. Humidity Safety Constraint
 
 A-DC must avoid harmful over-drying or over-humidification.
 
@@ -374,7 +426,7 @@ A-DC output must not create local condensation, icing, corrosion, or biological 
 
 No universal humidity target is assumed.
 
-15. Heat Interaction With SPHERE Thermal Core
+## 15. Heat Interaction With SPHERE Thermal Core
 
 A-DC may require heat for:
 
@@ -425,8 +477,11 @@ reduce airflow through A-DC
 use auxiliary heat
 skip heat-dependent process
 route air through bypass
-16. Reference Case A: 1 MW Data Center
-16.1 Declared Assumptions
+
+## 16. Reference Case A: 1 MW Data Center
+
+### 16.1 Declared Assumptions
+
 P_IT = 1,000 kW
 
 V_dot_air = 100,000 m³/h
@@ -450,12 +505,15 @@ PM_out = 5 µg/m³
 
 R_condensate_capture = 0.90
 h_fg_water = 2450 kJ/kg
-16.2 Air Mass Flow
+
+### 16.2 Air Mass Flow
+
 V_dot_air_m3_s = 100,000 / 3600
 V_dot_air_m3_s = 27.78 m³/s
 m_dot_air = 1.2 × 27.78
 m_dot_air = 33.33 kg/s
-16.3 Humidity Ratio
+
+### 16.3 Humidity Ratio
 
 Using Magnus approximation:
 
@@ -466,7 +524,9 @@ Difference:
 
 Delta_omega = 0.0160 - 0.00725
 Delta_omega = 0.00875 kg/kg
-16.4 Condensate Potential
+
+### 16.4 Condensate Potential
+
 m_dot_condensate = 33.33 × 0.00875
 m_dot_condensate = 0.292 kg/s
 V_condensate = (0.292 / 1000) × 86400
@@ -481,7 +541,8 @@ Lost / uncaptured condensate:
 
 V_condensate_lost = 25.2 - 22.7
 V_condensate_lost = 2.5 m³/day
-16.5 Thermal Load
+
+### 16.5 Thermal Load
 
 Sensible:
 
@@ -502,20 +563,26 @@ Interpretation:
 
 This reference case requires more cooling/dehumidification load than the 1 MW IT load.
 Therefore, this airflow and humidity target may be too aggressive unless the air stream and energy boundary are justified.
-16.6 Fan Power
+
+### 16.6 Fan Power
+
 DeltaP_total_ADC = 400 + 100 + 0
 DeltaP_total_ADC = 500 Pa
 P_fan = (500 × 27.78) / 0.65 / 1000
 P_fan = 21.4 kW
-16.7 Particulate Removal
+
+### 16.7 Particulate Removal
+
 eta_filter_PM = (25 - 5) / 25
 eta_filter_PM = 0.80
 M_PM_removed =
 (25 - 5) × 100,000 × 24 × 1e-9
 
 M_PM_removed = 0.048 kg/day
-17. Reference Case B: 10 MW Data Center
-17.1 Declared Assumptions
+
+## 17. Reference Case B: 10 MW Data Center
+
+### 17.1 Declared Assumptions
 
 Scale airflow linearly from Case A:
 
@@ -540,16 +607,21 @@ PM_out = 5 µg/m³
 
 R_condensate_capture = 0.90
 h_fg_water = 2450 kJ/kg
-17.2 Air Mass Flow
+
+### 17.2 Air Mass Flow
+
 V_dot_air_m3_s = 1,000,000 / 3600
 V_dot_air_m3_s = 277.78 m³/s
 m_dot_air = 1.2 × 277.78
 m_dot_air = 333.33 kg/s
-17.3 Humidity Ratio
+### 17.3 Humidity Ratio
+
 omega_in at 30°C, RH 60% ≈ 0.0160 kg/kg
 omega_out at 20°C, RH 50% ≈ 0.00725 kg/kg
 Delta_omega = 0.00875 kg/kg
-17.4 Condensate Potential
+
+### 17.4 Condensate Potential
+
 m_dot_condensate = 333.33 × 0.00875
 m_dot_condensate = 2.92 kg/s
 V_condensate = (2.92 / 1000) × 86400
@@ -564,7 +636,8 @@ Lost / uncaptured condensate:
 
 V_condensate_lost = 252 - 227
 V_condensate_lost = 25 m³/day
-17.5 Thermal Load
+
+### 17.5 Thermal Load
 
 Sensible:
 
@@ -585,17 +658,22 @@ Interpretation:
 
 This reference case requires ~10.5 MW of cooling/dehumidification load.
 For a 10 MW IT data center, the assumed airflow and humidity target represent a major energy boundary and must be site-validated.
-17.6 Fan Power
+
+### 17.6 Fan Power
+
 P_fan = (500 × 277.78) / 0.65 / 1000
 P_fan = 213.7 kW
-17.7 Particulate Removal
+
+### 17.7 Particulate Removal
+
 eta_filter_PM = (25 - 5) / 25
 eta_filter_PM = 0.80
 M_PM_removed =
 (25 - 5) × 1,000,000 × 24 × 1e-9
 
 M_PM_removed = 0.48 kg/day
-18. Interpretation Rules
+
+## 18. Interpretation Rules
 A-DC condensate is climate-dependent.
 A-DC condensate is humidity-dependent.
 A-DC condensate is airflow-dependent.
@@ -604,7 +682,8 @@ A-DC filtration benefit must be balanced against fan power and filter replacemen
 A-DC dehumidification can create large latent thermal load.
 A-DC must not be modeled as free water generation.
 A-DC must not violate data center environmental constraints.
-19. Process Output Requirements
+
+## 19. Process Output Requirements
 
 A-DC calculation must output:
 
@@ -635,7 +714,9 @@ P_ADC_electric
 Q_ADC_required
 Q_ADC_available
 Q_ADC_used
-20. Control Logic
+
+## 20. Control Logic
+
 INPUT:
     V_dot_air
     T_air_in
@@ -684,7 +765,9 @@ OUTPUT:
     particulate waste
     updated electric load
     updated thermal interaction
-21. Failure / Bypass Conditions
+
+## 21. Failure / Bypass Conditions
+
 IF ADC_fault == true:
     isolate A-DC
     preserve primary data center airflow / HVAC safety
@@ -708,7 +791,9 @@ IF biological_growth_risk == true:
     stop direct reuse
     sanitize condensate path
     inspect surfaces
-22. Engineering Constraints
+
+## 22. Engineering Constraints
+
 V_dot_air > 0
 
 m_dot_air > 0
@@ -740,7 +825,8 @@ A-DC must not reduce primary cooling reliability.
 A-DC must be bypassable.
 
 Condensate must not be counted as clean technical water before validation or W-env-DC treatment.
-23. AI Validation Questions
+
+## 23. AI Validation Questions
 
 An AI analysis system should verify:
 
@@ -783,7 +869,8 @@ An AI analysis system should verify:
 19. Are 1 MW and 10 MW cases scaled from declared assumptions?
 
 20. Which assumptions dominate feasibility: airflow, RH_in, RH_out, DeltaP_total_ADC, or Q_ADC_total?
-24. Minimum Site Data Required
+
+## 24. Minimum Site Data Required
 airflow source definition
 airflow rate
 air temperature profile
@@ -810,7 +897,8 @@ allowed temperature range
 water reuse quality target
 available Q_ADC from SPHERE thermal core
 A-DC maintenance access constraints
-25. Non-Claim Rules
+
+## 25. Non-Claim Rules
 
 Not allowed without site-specific proof:
 
@@ -834,7 +922,9 @@ A-DC captures Z m³/day of condensate at R_condensate_capture.
 A-DC removes M kg/day of particulate matter under declared PM assumptions.
 A-DC requires P kW of fan power under declared pressure drop.
 A-DC condensate requires validation or W-env-DC treatment before reuse.
-26. Summary Formula Block
+
+## 26. Summary Formula Block
+
 V_dot_air_m3_s = V_dot_air / 3600
 
 m_dot_air = rho_air × V_dot_air_m3_s
