@@ -1,6 +1,6 @@
 # assumptions-and-variables.md
 
-# SPHERE-DC Technical Document 02: Assumptions and Variables
+# SPHERE-DC Technical Document 01: Assumptions and Variables
 
 ## 0. Document Type
 
