@@ -1,10 +1,4 @@
-How a Data Center Can Waste Less Heat, Pollute Less, and Make Better Use of Its Own Thermal Output
-A while ago, I published a post asking why people are against data centers. After carefully reviewing the comments, I researched this issue separately and more deeply, and came to the following conclusion:
-1.	The trend of scaling data centers will continue.
-2.	It is necessary to solve the problems created by data centers before their implementation.
-Accordingly, I have focused on the issue of solving the problems that data centers create, and below I propose a solution — perhaps this will be of interest to someone (possibly voters, who might pressure politicians, who might pressure data center owners who want to avoid pressure and eco-taxes/bans and become 'good guys' to those around them).
-------------------------
-SPHERE-DC project
+# SPHERE-DC project
 Data centers have become part of the basic infrastructure of the modern world. They store data, process requests, run services, AI models, and business operations. But along with their usefulness, every data center has a simple physical problem: almost all the electricity it consumes eventually turns into heat.
 Usually, this heat is simply removed. Some of it is carried away through water, some through air, and some through cooling towers or chillers. This approach works, but it creates several side effects: the data center heats the local environment, consumes large amounts of water, produces technical wastewater, releases warm air, and often fails to use its own thermal output as a resource.
 SPHERE-DC is an attempt to look at a data center not just as a building with a cooling system, but as a stable source of heat, water flows, and air flows that can be organized more intelligently.
@@ -133,6 +127,3 @@ SPHERE-DC is not a new type of data center and not a replacement for the cooling
 It is an engineering layer that helps a data center handle its own consequences better: heat, water, air, and technical wastewater.
 Its simple principle is:
 intercept the flows before they become a problem, and route them through useful processes.
-------------------------
-P.S. What is described here was made intentionally superficial, but through appropriate Q&A. My task was to formalize the idea, the task of technical specialists is to understand the benefit and optimize the whole system so that everything gives profit / is rational / efficient.
-
