@@ -2,11 +2,22 @@
 
 ## Evaluation Scope
 
-Analyze the attached SPHERE-DC technical package as a **concept-level engineering model**.
+Analyze the SPHERE-DC repository as an open AI-auditable technical concept.
+
+If a GitHub link is provided, inspect the repository structure, README, license/disclaimer files, technical documents, integrated balance, and validation checklist before producing a verdict.
 
 Do not evaluate it as a marketing text.  
 Do not require site-specific data to classify the package — missing site data is an expected and declared condition of this package, not a defect.  
 Evaluate internal consistency, physical validity, and quality of the declared assumptions — not deployment readiness.
+
+---
+
+## Return first:
+1. 60-second human summary
+2. One-sentence technical verdict
+3. What the project claims
+4. What the project explicitly does not claim
+5. Whether the repository is internally coherent as a concept-level engineering framework
 
 ---
 
