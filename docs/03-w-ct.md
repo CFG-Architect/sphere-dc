@@ -17,10 +17,10 @@ SPHERE-DC intercepts cooling tower blowdown before discharge.
 W-CT receives concentrated cooling tower water containing salts, biocides, inhibitors, and metals.
 W-CT uses available data center heat and auxiliary equipment to recover technical water and concentrate the remaining contaminants into a smaller waste stream.
 
-Source basis: SPHERE-DC backup defines W-CT as the module for cooling tower dirty water, with blowdown capture before external discharge, water recovery, and concentration of salts/metals/reagents into brine or sludge.
+W-CT is the SPHERE-DC module for cooling tower blowdown treatment, with blowdown capture before external discharge, technical water recovery, and concentration of salts, metals, and treatment chemicals into brine, sludge, or reject.
 ```
 
-1. Scope
+## 1. Scope
 
 This document defines calculation logic for:
 
@@ -44,7 +44,8 @@ chemical dosing design
 hazardous waste classification
 site permitting
 final water quality certification
-2. Module Position in SPHERE-DC Priority
+
+## 2. Module Position in SPHERE-DC Priority
 
 Heat routing priority:
 
@@ -58,8 +59,10 @@ Heat routing priority:
 W-CT priority condition:
 
 Q_WCT is allocated before Q_ADC, Q_WENV, Q_export, Q_buffer.
-3. Required Inputs
-3.1 Data Center / Cooling Tower Inputs
+
+## 3. Required Inputs
+
+### 3.1 Data Center / Cooling Tower Inputs
 Symbol	Meaning	Unit
 P_IT	IT electrical load	kW
 Q_total	Total data center heat load inside selected boundary	kW
@@ -71,7 +74,9 @@ V_blowdown_original	Original cooling tower blowdown volume	m³/day
 V_evap	Evaporative loss	m³/day
 V_drift	Drift loss	m³/day
 V_leak	Leakage / miscellaneous loss	m³/day
-3.2 Water Chemistry Inputs
+
+### 3.2 Water Chemistry Inputs
+
 Symbol	Meaning	Unit
 TDS_makeup	TDS in make-up water	mg/L
 TDS_blowdown	TDS in blowdown	mg/L
@@ -84,7 +89,9 @@ silica_blowdown	Silica concentration	mg/L
 metals_blowdown	Sum or selected metals concentration	mg/L
 biocide_residual	Biocide residual concentration	mg/L
 inhibitor_residual	Corrosion / scale inhibitor concentration	mg/L
-3.3 W-CT Process Inputs
+
+### 3.3 W-CT Process Inputs
+
 Symbol	Meaning	Unit
 R_WCT	W-CT water recovery rate	0–1
 V_WCT_in	W-CT inlet water volume	m³/day
@@ -95,13 +102,18 @@ Q_WCT_available	Heat available to W-CT	kW
 Q_WCT_required	Heat required by W-CT process	kW
 P_WCT_electric	W-CT electric load	kW
 eta_WCT_thermal_use	Fraction of W-CT process heat supplied by captured DC heat	0–1
-4. Default Constants
+
+## 4. Default Constants
+
 rho_water = 1000 kg/m³
 h_fg_water_evap_default = 2450 kJ/kg
 seconds_per_day = 86400 s/day
 liters_per_m3 = 1000 L/m³
-5. Core Cooling Tower Balance
-5.1 First-Order Evaporation From Heat Rejection
+
+## 5. Core Cooling Tower Balance
+
+### 5.1 First-Order Evaporation From Heat Rejection
+
 m_evap_kg_s = Q_CT / h_fg_water_evap_default
 V_evap = (m_evap_kg_s / rho_water) × seconds_per_day
 
@@ -111,19 +123,23 @@ Q_CT in kW = kJ/s
 h_fg_water_evap_default in kJ/kg
 m_evap_kg_s in kg/s
 V_evap in m³/day
-5.2 Blowdown From Cycles of Concentration
+
+### 5.2 Blowdown From Cycles of Concentration
+
 V_blowdown = V_evap / (CoC - 1)
 
 Constraint:
 
 CoC > 1
-5.3 Cooling Tower Make-Up Water
+### 5.3 Cooling Tower Make-Up Water
+
 V_makeup = V_evap + V_blowdown + V_drift + V_leak
 
 If V_drift and V_leak are unknown:
 
 V_makeup ≈ V_evap + V_blowdown
-6. W-CT Inlet Definition
+
+## 6. W-CT Inlet Definition
 
 Base case:
 
@@ -136,10 +152,15 @@ V_WCT_in = V_blowdown + V_other_technical_waste
 Constraint:
 
 V_WCT_in >= V_blowdown
-7. Water Recovery Calculation
-7.1 Recovered Technical Water
+
+## 7. Water Recovery Calculation
+
+### 7.1 Recovered Technical Water
+
 V_WCT_recovered = V_WCT_in × R_WCT
-7.2 Remaining Waste Stream
+
+### 7.2 Remaining Waste Stream
+
 V_WCT_waste = V_WCT_in - V_WCT_recovered
 
 Equivalent:
@@ -158,7 +179,8 @@ Non-claim rule:
 
 R_WCT = 1.0 is not allowed in concept claims.
 100% blowdown recovery is not allowed.
-8. Contaminant Mass Balance
+
+## 8. Contaminant Mass Balance
 
 For any dissolved or suspended component X:
 
@@ -178,7 +200,9 @@ M_X_in_kg_day = V_WCT_in × C_X_in / 1000
 Because:
 
 m³/day × mg/L / 1000 = kg/day
-8.1 Recovered Water Contaminant Load
+
+### 8.1 Recovered Water Contaminant Load
+
 M_X_recovered_kg_day = V_WCT_recovered × C_X_recovered / 1000
 8.2 Waste Stream Contaminant Load
 M_X_waste_kg_day = M_X_in_kg_day - M_X_recovered_kg_day
@@ -192,7 +216,8 @@ C_X_waste = (M_X_waste_kg_day × 1000) / V_WCT_waste
 Where:
 
 C_X_waste in mg/L
-9. TDS Approximation
+
+## 9. TDS Approximation
 
 If only make-up water TDS and CoC are known:
 
@@ -213,7 +238,8 @@ M_TDS_waste_kg_day = M_TDS_in_kg_day - M_TDS_recovered_kg_day
 Waste TDS:
 
 TDS_waste = (M_TDS_waste_kg_day × 1000) / V_WCT_waste
-10. W-CT Concentration Factor
+
+## 10. W-CT Concentration Factor
 
 Volume-based concentration factor:
 
@@ -232,7 +258,8 @@ R_WCT = 0.90 → CF_WCT_volume = 10
 Constraint:
 
 Higher CF_WCT increases waste concentration and scaling risk.
-11. Heat Demand Model
+
+## 11. Heat Demand Model
 
 W-CT may use heat for:
 
@@ -242,7 +269,8 @@ thermal concentration
 membrane support
 regeneration
 sludge drying
-11.1 Thermal Evaporation Requirement
+
+### 11.1 Thermal Evaporation Requirement
 
 If W-CT uses thermal evaporation to recover water:
 
@@ -264,7 +292,9 @@ Q_WCT_required_kW =
 ((V_WCT_recovered × rho_water) / seconds_per_day × h_fg_effective)
 /
 eta_WCT_thermal_process
-11.2 Available Heat Constraint
+
+### 11.2 Available Heat Constraint
+
 Q_WCT_used = min(Q_WCT_available, Q_WCT_required)
 
 If:
@@ -278,7 +308,8 @@ increase residence time
 use auxiliary heat
 switch to lower-energy process
 route remaining water to conventional treatment
-12. Electric Load Model
+
+## 12. Electric Load Model
 
 W-CT electric load:
 
@@ -302,8 +333,10 @@ V_WCT_recovered in m³/day
 Constraint:
 
 V_WCT_recovered > 0
-13. Cooling Tower Water Impact
-13.1 New Make-Up Water Demand
+
+## 13. Cooling Tower Water Impact
+
+### 13.1 New Make-Up Water Demand
 
 If recovered W-CT water is reused as cooling tower make-up:
 
@@ -313,13 +346,16 @@ Constraint:
 
 0 <= V_WCT_reused_as_makeup <= V_WCT_recovered
 V_makeup_new >= 0
-13.2 Fresh Water Reduction
+
+### 13.2 Fresh Water Reduction
+
 fresh_water_reduction_WCT = V_makeup_original - V_makeup_new
 
 Equivalent:
 
 fresh_water_reduction_WCT = min(V_WCT_recovered, V_makeup_original)
-13.3 Liquid Discharge Reduction
+
+### 13.3 Liquid Discharge Reduction
 
 Original discharge:
 
@@ -343,8 +379,10 @@ Constraints:
 
 V_discharge_new >= 0
 0 <= discharge_reduction_fraction_WCT <= 1
-14. Reference Case A: 1 MW Data Center
-14.1 Given / Assumed Inputs
+
+## 14. Reference Case A: 1 MW Data Center
+
+### 14.1 Given / Assumed Inputs
 
 From SPHERE-DC baseline:
 
@@ -362,24 +400,32 @@ R_WCT = 0.75
 TDS_makeup = 500 mg/L
 TDS_blowdown ≈ TDS_makeup × CoC
 TDS_recovered = 250 mg/L
-14.2 Evaporation Estimate
+
+### 14.2 Evaporation Estimate
+
 m_evap_kg_s = 1000 / 2450
 m_evap_kg_s = 0.408 kg/s
 V_evap = (0.408 / 1000) × 86400
 V_evap = 35.3 m³/day
-14.3 Blowdown Estimate
+
+### 14.3 Blowdown Estimate
+
 V_blowdown = 35.3 / (3 - 1)
 V_blowdown = 17.65 m³/day
-14.4 Make-Up Water Estimate
+
+### 14.4 Make-Up Water Estimate
+
 V_makeup ≈ V_evap + V_blowdown
 V_makeup ≈ 35.3 + 17.65
 V_makeup ≈ 52.95 m³/day
 
 Note:
 
-The SPHERE-DC backup gives ~70 m³/day total water loss for 1 MW.
+The SPHERE-DC reference baseline gives ~70 m³/day total water loss for 1 MW.
 The difference may be explained by drift, leakage, site design, climate, tower efficiency, or broader boundary assumptions.
-14.5 W-CT Recovery
+
+### 14.5 W-CT Recovery
+
 V_WCT_in = V_blowdown
 V_WCT_in = 17.65 m³/day
 V_WCT_recovered = 17.65 × 0.75
@@ -388,7 +434,9 @@ V_WCT_waste = 17.65 - 13.24
 V_WCT_waste = 4.41 m³/day
 CF_WCT_volume = 17.65 / 4.41
 CF_WCT_volume ≈ 4.0
-14.6 TDS Mass Balance
+
+### 14.6 TDS Mass Balance
+
 TDS_blowdown = 500 × 3
 TDS_blowdown = 1500 mg/L
 M_TDS_in = 17.65 × 1500 / 1000
@@ -399,7 +447,8 @@ M_TDS_waste = 26.48 - 3.31
 M_TDS_waste = 23.17 kg/day
 TDS_waste = (23.17 × 1000) / 4.41
 TDS_waste ≈ 5254 mg/L
-14.7 Discharge Reduction
+
+### 14.7 Discharge Reduction
 
 Assume all blowdown enters W-CT:
 
@@ -414,8 +463,10 @@ Result:
 
 W-CT reduces liquid blowdown discharge by 75% under declared assumptions.
 Remaining concentrated waste = 4.41 m³/day.
-15. Reference Case B: 10 MW Data Center
-15.1 Given / Scaled Inputs
+
+## 15. Reference Case B: 10 MW Data Center
+
+### 15.1 Given / Scaled Inputs
 
 Scale from 1 MW reference:
 
@@ -433,15 +484,21 @@ R_WCT = 0.75
 TDS_makeup = 500 mg/L
 TDS_blowdown ≈ TDS_makeup × CoC
 TDS_recovered = 250 mg/L
-15.2 Evaporation Estimate
+
+### 15.2 Evaporation Estimate
+
 m_evap_kg_s = 10000 / 2450
 m_evap_kg_s = 4.082 kg/s
 V_evap = (4.082 / 1000) × 86400
 V_evap = 352.8 m³/day
-15.3 Blowdown Estimate
+
+### 15.3 Blowdown Estimate
+
 V_blowdown = 352.8 / (3 - 1)
 V_blowdown = 176.4 m³/day
-15.4 Make-Up Water Estimate
+
+### 15.4 Make-Up Water Estimate
+
 V_makeup ≈ 352.8 + 176.4
 V_makeup ≈ 529.2 m³/day
 
@@ -449,7 +506,9 @@ Note:
 
 The scaled SPHERE-DC baseline suggests ~700 m³/day total water loss for 10 MW.
 The difference depends on drift, leakage, climate, cooling tower design, CoC, and boundary definition.
-15.5 W-CT Recovery
+
+### 15.5 W-CT Recovery
+
 V_WCT_in = 176.4 m³/day
 V_WCT_recovered = 176.4 × 0.75
 V_WCT_recovered = 132.3 m³/day
@@ -457,7 +516,9 @@ V_WCT_waste = 176.4 - 132.3
 V_WCT_waste = 44.1 m³/day
 CF_WCT_volume = 176.4 / 44.1
 CF_WCT_volume = 4.0
-15.6 TDS Mass Balance
+
+### 15.6 TDS Mass Balance
+
 TDS_blowdown = 500 × 3
 TDS_blowdown = 1500 mg/L
 M_TDS_in = 176.4 × 1500 / 1000
@@ -468,7 +529,9 @@ M_TDS_waste = 264.6 - 33.08
 M_TDS_waste = 231.52 kg/day
 TDS_waste = (231.52 × 1000) / 44.1
 TDS_waste ≈ 5250 mg/L
-15.7 Discharge Reduction
+
+### 15.7 Discharge Reduction
+
 V_discharge_original = 176.4 m³/day
 V_discharge_new = 44.1 m³/day
 liquid_discharge_reduction_WCT = 176.4 - 44.1
@@ -480,7 +543,8 @@ Result:
 
 W-CT reduces liquid blowdown discharge by 75% under declared assumptions.
 Remaining concentrated waste = 44.1 m³/day.
-16. Heat Requirement Sensitivity
+
+## 16. Heat Requirement Sensitivity
 
 If recovered water is produced by thermal evaporation:
 
@@ -515,7 +579,8 @@ Lower-energy processes or multi-effect / heat recovery designs must be modeled e
 Non-claim rule:
 
 Do not claim high W-CT recovery with low heat demand unless process architecture supports it.
-17. Process Output Requirements
+
+## 17. Process Output Requirements
 
 W-CT calculation must output:
 
@@ -538,7 +603,9 @@ SEC_WCT
 fresh_water_reduction_WCT
 liquid_discharge_reduction_WCT
 discharge_reduction_fraction_WCT
-18. Control Logic
+
+## 18. Control Logic
+
 INPUT:
     V_blowdown
     water_chemistry
@@ -577,7 +644,9 @@ OUTPUT:
     concentrated brine/sludge/reject
     updated make-up water demand
     updated liquid discharge
-19. Failure / Bypass Conditions
+
+## 19. Failure / Bypass Conditions
+
 IF WCT_fault == true:
     isolate W-CT
     preserve cooling tower operation
@@ -595,7 +664,9 @@ IF pH_out_of_range == true:
 IF conductivity_high == true:
     stop direct reuse
     route to W-env-DC polishing or reject stream
-20. Engineering Constraints
+
+## 20. Engineering Constraints
+
 CoC > 1
 
 0 <= R_WCT < 1
@@ -615,7 +686,8 @@ W-CT must not interrupt primary cooling tower safety operation.
 W-CT must be bypassable.
 
 No zero-discharge claim is allowed without full site-specific mass balance and regulatory validation.
-21. AI Validation Questions
+
+## 21. AI Validation Questions
 
 An AI analysis system should verify:
 
@@ -658,7 +730,9 @@ An AI analysis system should verify:
 19. Is waste handling included as an output, not hidden?
 
 20. Which variables dominate feasibility: CoC, R_WCT, TDS, Q_WCT_required, or disposal cost?
-22. Minimum Site Data Required
+
+## 22. Minimum Site Data Required
+
 cooling tower type
 cooling tower heat rejection load
 cooling tower circulating water flow
@@ -691,7 +765,8 @@ available heat to W-CT
 available electrical power to W-CT
 permitted waste storage volume
 BMS / SCADA integration points
-23. Non-Claim Rules
+
+## 23. Non-Claim Rules
 
 Not allowed without site-specific proof:
 
@@ -711,7 +786,9 @@ W-CT reduces liquid blowdown discharge from X m³/day to Y m³/day.
 W-CT recovers Z m³/day of technical water.
 W-CT concentrates remaining contaminants into W m³/day of waste stream.
 Recovered water requires quality validation before reuse.
-24. Summary Formula Block
+
+## 24. Summary Formula Block
+
 m_evap_kg_s = Q_CT / h_fg_water_evap_default
 
 V_evap = (m_evap_kg_s / rho_water) × seconds_per_day
@@ -756,7 +833,7 @@ SEC_WCT = P_WCT_electric × 24 / V_WCT_recovered
 
 V_makeup_new = V_makeup_original - V_WCT_reused_as_makeup
 
-fresh_water_reduction_WCT = min(V_WCT_recovered, V_makeup_original)
+fresh_water_reduction_WCT = min(V_WCT_reused_as_makeup, V_makeup_original)
 
 V_discharge_new = V_WCT_waste + V_unprocessed_blowdown
 
