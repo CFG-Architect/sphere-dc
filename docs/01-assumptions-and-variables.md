@@ -32,7 +32,7 @@ Reading this document does not substitute for reading docs 03–10.
 Each module document contains specifications, constraints, and failure conditions
 not present here.
 
-1. System Boundary
+## 1. System Boundary
 
 SPHERE-DC is modeled as an engineering layer connected to a data center.
 
@@ -52,7 +52,7 @@ thermal buffers
 
 SPHERE-DC must not compromise primary data center cooling safety.
 
-2. Reference Scales
+## 2. Reference Scales
 
 Default reference cases:
 
@@ -61,7 +61,8 @@ Case B: 10 MW IT load
 
 These are calculation cases, not deployment limits.
 
-3. Global Assumptions
+## 3. Global Assumptions
+
 A1. Nearly all IT electrical load becomes heat.
 
 A2. First-order thermal load:
@@ -90,7 +91,8 @@ A10. Data center cooling safety has priority over SPHERE-DC process efficiency.
 A11. All numerical assumptions must be explicitly declared.
 
 A12. Site-specific values must replace defaults before engineering design.
-4. Unit Standard
+
+## 4. Unit Standard
 
 Use SI units.
 
@@ -116,7 +118,9 @@ Conversion rules:
 1 kW = 1 kJ/s
 1 m³ water ≈ 1000 kg
 1 day = 24 h = 86400 s
-5. Default Physical Constants
+
+## 5. Default Physical Constants
+
 Cp_water = 4.186 kJ/kg·K
 rho_water = 1000 kg/m³
 
@@ -131,7 +135,9 @@ Cp_water may vary with temperature and chemistry.
 rho_water may vary with salinity and temperature.
 rho_air depends on temperature, pressure, and humidity.
 h_fg_water_evap_default is a first-order estimate for cooling tower calculations.
-6. Global Thermal Variables
+
+## 6. Global Thermal Variables
+
 Symbol	Meaning	Unit
 P_IT	IT electrical load	kW
 P_facility_extra	Additional facility load converted to heat inside boundary	kW
@@ -160,7 +166,8 @@ m_dot_core = Q_captured / (Cp_water × DeltaT_core)
 V_dot_core_m3_s = m_dot_core / rho_water
 
 V_dot_core_m3_h = V_dot_core_m3_s × 3600
-7. Heat Allocation Variables
+
+## 7. Heat Allocation Variables
 
 SPHERE-DC heat routing priority:
 
@@ -188,11 +195,18 @@ Q_tail_total = Q_total - Q_used_total
 
 tail_fraction = Q_tail_total / Q_total
 
+Buffer accounting note:
+
+Q_buffer represents delayed or stored heat, not eliminated heat.
+Full-cycle accounting must track later buffer discharge.
+
 Constraint:
 
 Q_used_total <= Q_total
 Q_WCT + Q_ADC + Q_WENV + Q_export + Q_buffer <= Q_captured
-8. Cooling Tower / W-CT Variables
+
+## 8. Cooling Tower / W-CT Variables
+
 Symbol	Meaning	Unit
 Q_CT	Heat load rejected through cooling tower boundary	kW
 V_circ_CT	Cooling tower circulating water flow	m³/day
@@ -236,7 +250,9 @@ CoC > 1
 0 <= R_WCT <= 1
 V_WCT_recovered <= V_blowdown
 V_WCT_waste >= 0
-9. Air / A-DC Variables
+
+## 9. Air / A-DC Variables
+
 Symbol	Meaning	Unit
 V_dot_air	Air volume flow	m³/h
 m_dot_air	Dry air mass flow	kg/s
@@ -281,7 +297,9 @@ Constraints:
 omega_out <= omega_in only if dehumidification occurs
 PM_out <= PM_in
 0 < eta_fan <= 1
-10. Clean Technical Water / W-env-DC Variables
+
+## 10. Clean Technical Water / W-env-DC Variables
+
 Symbol	Meaning	Unit
 V_WCT_recovered	Water recovered from W-CT	m³/day
 V_condensate	Condensate recovered from A-DC	m³/day
@@ -308,7 +326,9 @@ Constraints:
 0 <= R_WENV <= 1
 V_clean_technical <= V_WENV_in
 V_WENV_reject >= 0
-11. Thermal Buffer Variables
+
+## 11. Thermal Buffer Variables
+
 Symbol	Meaning	Unit
 Q_peak_excess	Excess heat during peak	kW
 t_peak	Peak duration	h
@@ -346,7 +366,9 @@ Constraints:
 E_buffer_usable >= required peak coverage target
 0 < eta_buffer_charge <= 1
 0 < eta_buffer_discharge <= 1
-12. Heat Export Variables
+
+## 12. Heat Export Variables
+
 Symbol	Meaning	Unit
 Q_export_available	Heat available for export	kW
 Q_export_demand	External heat demand	kW
@@ -375,7 +397,9 @@ Constraint:
 0 <= eta_export <= 1
 Q_export_delivered <= Q_export_available
 Q_export_delivered <= Q_export_demand
-13. Auxiliary Power Variables
+
+## 13. Auxiliary Power Variables
+
 Symbol	Meaning	Unit
 Q_aux_used	Heat routed to auxiliary power generation	kW
 eta_aux_conversion	Heat-to-electric conversion efficiency	0–1
@@ -403,8 +427,14 @@ Constraints:
 0 <= eta_aux_conversion <= 1
 P_aux_gross <= Q_aux_used
 Auxiliary power must not be modeled as primary data center power.
-14. System-Level Output Variables
+
+## 14. System-Level Output Variables
+
 Symbol	Meaning	Unit
+original_makeup_water_demand	Baseline external make-up water demand before SPHERE-DC	m³/day
+original_liquid_discharge	Baseline liquid discharge before SPHERE-DC	m³/day
+new_liquid_discharge	Liquid discharge after SPHERE-DC	m³/day
+original_thermal_tail	Baseline unused local heat output before SPHERE-DC	kW
 water_reuse_total	Total recovered water reused	m³/day
 fresh_water_reduction	Reduction of external fresh water demand	m³/day
 liquid_discharge_reduction	Reduction of liquid discharge	m³/day
@@ -415,7 +445,7 @@ system_electric_load	Total SPHERE electric load	kW
 
 Water reuse:
 
-water_reuse_total = V_WCT_recovered + V_condensate + V_clean_technical
+water_reuse_total = V_clean_technical
 
 Fresh water reduction:
 
@@ -432,7 +462,8 @@ thermal_tail_reduction = original_thermal_tail - Q_tail_total
 Waste concentrate:
 
 waste_concentrate_total = V_WCT_waste + V_WENV_reject
-15. Default Reference Assumption Set
+
+## 15. Default Reference Assumption Set
 
 Use only for early concept calculation.
 
@@ -462,7 +493,7 @@ eta_export = site-specific
 
 Values marked site-specific or technology-specific must not be assumed in final engineering claims.
 
-16. Required Site Data
+## 16. Required Site Data
 
 Before engineering design, collect:
 
@@ -505,7 +536,8 @@ local climate
 electricity price
 environmental constraints
 BMS/SCADA integration data
-17. AI Validation Checklist
+
+## 17. AI Validation Checklist
 
 An AI analysis system should verify:
 
@@ -548,7 +580,8 @@ An AI analysis system should verify:
 19. Are 1 MW and 10 MW reference cases scalable from the same formulas?
 
 20. Which assumptions dominate the result sensitivity?
-18. Non-Claim Rules
+
+## 18. Non-Claim Rules
 
 The following claims are not allowed unless supported by site-specific calculations:
 
@@ -570,7 +603,9 @@ Under declared assumptions, the model estimates:
 - remaining thermal tail
 - remaining waste stream
 - auxiliary power balance
-19. Summary Formula Block
+
+## 19. Summary Formula Block
+
 Q_total ≈ P_IT
 
 Q_total = P_IT + P_facility_extra
