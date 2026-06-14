@@ -38,8 +38,8 @@ It checks:
 
 This integrated balance uses variables and formulas from:
 
-01 thermal-core.md
-02 assumptions-and-variables.md
+01 assumptions-and-variables.md
+02 thermal-core.md
 03 w-ct.md
 04 a-dc.md
 05 w-env-dc.md
