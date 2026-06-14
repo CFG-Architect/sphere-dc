@@ -79,22 +79,22 @@ S5 = impossible / physically invalid / false claim
 
 ## Feasibility Classification
 
-Classify the full package using exactly one of the following:
-CLASS_A = internally consistent concept model; ready for site-specific engineering evaluation
-Requires: all balances internally consistent, no S4/S5 failures,
-non-claim rules preserved, dominant risks identified and bounded under declared assumptions
-CLASS_B = partially consistent; needs correction or additional package-level assumptions before site-specific engineering evaluation
-Requires: internal logic consistent, no physically impossible claims,
-some required package-level assumptions, variables, or module constraints are missing or unclear, reference cases plausible but not site-validated
-CLASS_C = conceptually plausible but current assumptions are weak or optimistic
-Requires: physically plausible concept, but key assumptions unvalidated,
-dominant modules depend on site conditions, feasibility uncertain
-CLASS_D = internally inconsistent; requires correction before further evaluation
-Requires: internal contradictions, double counting, major missing calculations,
-or S4 failures present
-CLASS_E = physically invalid or based on false claims
-Requires: violation of physical constraints, impossible efficiency claims,
-self-powered data center claim, zero discharge without reject accounting,
+Classify the full package using exactly one of the following: 
+CLASS_A = internally consistent concept model; ready for site-specific engineering evaluation 
+Requires: all balances internally consistent, no S4/S5 failures, 
+non-claim rules preserved, dominant risks identified and bounded under declared assumptions 
+CLASS_B = partially consistent; needs correction or additional package-level assumptions before site-specific engineering evaluation 
+Requires: internal logic consistent, no physically impossible claims, 
+some required package-level assumptions, variables, or module constraints are missing or unclear, reference cases plausible but not site-validated 
+CLASS_C = conceptually plausible but current assumptions are weak or optimistic 
+Requires: physically plausible concept, but key assumptions unvalidated, 
+dominant modules depend on site conditions, feasibility uncertain 
+CLASS_D = internally inconsistent; requires correction before further evaluation 
+Requires: internal contradictions, double counting, major missing calculations, 
+or S4 failures present 
+CLASS_E = physically invalid or based on false claims 
+Requires: violation of physical constraints, impossible efficiency claims, 
+self-powered data center claim, zero discharge without reject accounting, 
 or S5 failures present
 
 ---
