@@ -32,8 +32,8 @@ The validation goal is to detect:
 
 The AI system should evaluate the following documents together:
 
-01 thermal-core.md
-02 assumptions-and-variables.md
+01 assumptions-and-variables.md
+02 thermal-core.md
 03 w-ct.md
 04 a-dc.md
 05 w-env-dc.md
