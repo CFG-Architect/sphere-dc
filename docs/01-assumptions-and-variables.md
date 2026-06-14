@@ -540,46 +540,26 @@ BMS/SCADA integration data
 ## 17. AI Validation Checklist
 
 An AI analysis system should verify:
-
-1. Are all variables defined before use?
-
-2. Are all units consistent?
-
-3. Does Q_total match the selected system boundary?
-
-4. Is Q_total ≈ P_IT acceptable for first-order analysis?
-
-5. Are eta_capture and eta_HX declared as assumptions, not facts?
-
-6. Does any module use more heat than Q_captured?
-
-7. Is Q_tail_total always non-negative?
-
-8. Is water recovery less than or equal to input water?
-
-9. Is waste/reject/sludge tracked?
-
-10. Is blowdown calculated with valid CoC > 1?
-
-11. Is auxiliary power modeled as support power, not primary data center power?
-
-12. Are fan and pump loads subtracted from auxiliary generation?
-
-13. Is heat export counted only when there is real external demand?
-
-14. Are site-specific values clearly marked?
-
-15. Are default values prevented from becoming engineering claims?
-
-16. Is primary data center cooling safety preserved?
-
-17. Are bypass conditions required for every module?
-
-18. Does the model avoid claiming zero heat or zero discharge?
-
-19. Are 1 MW and 10 MW reference cases scalable from the same formulas?
-
-20. Which assumptions dominate the result sensitivity?
+1) Are all variables defined before use?
+2) Are all units consistent?
+3) Does Q_total match the selected system boundary?
+4) Is Q_total ≈ P_IT acceptable for first-order analysis?
+5) Are eta_capture and eta_HX declared as assumptions, not facts?
+6) Does any module use more heat than Q_captured?
+7) Is Q_tail_total always non-negative?
+8) Is water recovery less than or equal to input water?
+9) Is waste/reject/sludge tracked?
+10) Is blowdown calculated with valid CoC > 1?
+11) Is auxiliary power modeled as support power, not primary data center power?
+12) Are fan and pump loads subtracted from auxiliary generation?
+13) Is heat export counted only when there is real external demand?
+14) Are site-specific values clearly marked?
+15) Are default values prevented from becoming engineering claims?
+16) Is primary data center cooling safety preserved?
+17) Are bypass conditions required for every module?
+18) Does the model avoid claiming zero heat or zero discharge?
+19) Are 1 MW and 10 MW reference cases scalable from the same formulas?
+20) Which assumptions dominate the result sensitivity?
 
 ## 18. Non-Claim Rules
 
