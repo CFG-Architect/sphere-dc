@@ -1,8 +1,8 @@
 # SPHERE-DC
 
-**SPHERE-DC** is an AI-evaluable technical concept for integrating data center heat, water, air, and auxiliary energy flows into a structured engineering system.
+SPHERE-DC is a free and open AI-auditable technical concept for integrating data center heat, water, air, and residual discharge flows into a structured engineering framework.
 
-This repository does not present a finished commercial product.  
+It is not a product, not a commercial offer, not a construction-ready design, and not a claim of zero heat, zero discharge, potable water, or self-powered data centers.
 It presents a technical concept, system logic, engineering assumptions, validation constraints, and an AI-auditable documentation package.
 
 ## Core Idea
@@ -11,12 +11,10 @@ A data center should not be treated only as a source of waste heat, dirty water,
 
 SPHERE-DC treats these outputs as interconnected flows:
 
-```text
 heat → capture → allocation → useful process / export / buffer / tail
 water → recovery → treatment → clean technical water / reject
 air → filtration → humidity control → condensate / load
 energy → limited auxiliary support power
-```
 
 ## Start Here
 
@@ -44,16 +42,13 @@ energy → limited auxiliary support power
 
 ## What This Is
 
-```text id="7vhnbu"
 engineering concept skeleton
 system balance framework
 AI-verifiable feasibility scaffold
 anti-overclaim protocol
-```
 
 ## What This Is Not
 
-```text id="l27co0"
 not a final engineering design
 not a vendor-ready implementation package
 not a commercial roadmap
@@ -62,7 +57,6 @@ not a claim of zero heat
 not a claim of zero discharge
 not a claim of self-powered data centers
 not a claim of potable water production
-```
 
 ## Recommended AI Audit Prompt
 Use the full prompt from [audit/ai-evaluation-prompt.md](audit/ai-evaluation-prompt.md)
@@ -73,13 +67,11 @@ Provide all documents from the `docs/` folder together with the prompt.
 
 The current package should be treated as:
 
-```text id="mecdak"
 concept-level engineering model
 ready for independent AI audit
 ready for site-specific professional evaluation
 not ready for direct deployment
-```
 
 ## Rights Notice
 
-See [NOTICE.md](NOTICE.md).
+See [DISCLAIMER.md](DISCLAIMER.md).
